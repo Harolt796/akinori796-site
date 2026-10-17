@@ -184,7 +184,7 @@ h2{font-family:var(--f-head);font-weight:700;font-size:clamp(32px,5vw,50px);line
 .cart .btn{justify-content:center}
 
 /* Apps */
-.apps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.apps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 @media (max-width:900px){.apps{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:480px){.apps{grid-template-columns:1fr}}
 .app{border:4px dashed var(--line);padding:18px;display:flex;flex-direction:column;gap:8px}
@@ -209,6 +209,30 @@ input:focus,textarea:focus,select:focus{outline:none;box-shadow:0 0 0 4px var(--
 footer{border-top:var(--px) solid var(--line);padding-block:28px 44px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;color:var(--plomo);font-size:14px}
 footer nav{display:flex;gap:16px;flex-wrap:wrap}
 footer a{color:var(--dim)}
+
+/* Línguas em blocos longos */
+[data-l]{display:none}
+html[lang="pt-BR"] [data-l="pt"],html[lang="es"] [data-l="es"],html[lang="en"] [data-l="en"]{display:revert}
+/* Módulos e requisitos (clique para abrir) */
+.mods,.req{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start}
+@media (max-width:760px){.mods,.req{grid-template-columns:1fr}}
+.mod{background:var(--bg2);min-width:0}
+.mod summary{list-style:none;cursor:pointer;display:flex;gap:14px;align-items:center;padding:16px 18px}
+.mod summary::-webkit-details-marker{display:none}
+.mod summary>span:last-child{display:grid;gap:2px;flex:1;min-width:0}
+.mod summary b{font-family:var(--f-head);font-weight:700;font-size:20px;line-height:1.15}
+.mod summary small{color:var(--dim);font-size:14px}
+.mod summary::after{content:"+";font-family:var(--f-pixel);font-size:14px;color:var(--c);flex:none}
+.mod[open] summary::after{content:"−"}
+.mod[open]{--line:var(--c)}
+.mbody{padding:0 18px 18px;display:grid;gap:10px}
+.mbody p{margin:0 0 8px;color:var(--fg);font-size:15.5px}
+.mbody b{color:var(--c)}
+.mbody a{color:var(--c);font-weight:600}
+.mbody code{font-size:14px;background:var(--bg);padding:1px 6px}
+.lim{margin:0 0 8px;padding-left:18px;display:grid;gap:6px;font-size:15px}
+.src{color:var(--plomo);font-size:13px;margin:18px 0 0}
+.hobby{font-family:var(--f-pixel);font-size:9px;background:var(--green);color:#111;padding:5px 7px;margin-left:8px;vertical-align:middle}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
@@ -220,9 +244,9 @@ footer a{color:var(--dim)}
     <a class="brand" href="#top" aria-label="Akinori796"><img src="/assets/akinori796-logo-96.webp" width="40" height="40" alt=""><b>AKINORI796</b></a>
     <nav class="menu" aria-label="Menu">
       <a href="#servicos" data-i18n="nav.svc">Serviços</a>
+      <a href="#imobiliarias" data-i18n="nav.imob">Imobiliárias</a>
       <a href="#portfolio" data-i18n="nav.port">Portfólio</a>
-      <a href="#jogos" data-i18n="nav.games">Jogos</a>
-      <a href="#apps" data-i18n="nav.apps">Apps</a>
+      <a href="#requisitos" data-i18n="nav.req">Antes de começar</a>
       <a href="#contato" data-i18n="nav.contact">Contato</a>
     </nav>
     <div class="lang" role="group" aria-label="Idioma / Language">
@@ -307,9 +331,79 @@ footer a{color:var(--dim)}
     </div>
   </section>
 
+  <section class="world" id="imobiliarias">
+    <div class="whead" style="--c:var(--orange)">
+      <span class="wtag">WORLD 1-2</span>
+      <h2><span data-l="pt">Sistema para imobiliárias, por módulos</span><span data-l="es">Sistema para inmobiliarias, por módulos</span><span data-l="en">Real estate system, module by module</span></h2>
+      <p><span data-l="pt">Você não precisa levar tudo. Escolha só o que a sua imobiliária usa e adicione mais quando quiser. Toque em cada módulo para ver o que ele faz e o que precisa.</span><span data-l="es">No necesitas llevar todo. Elige solo lo que usa tu inmobiliaria y agrega más cuando quieras. Toca cada módulo para ver qué hace y qué necesita.</span><span data-l="en">You don't need everything. Pick only what your agency uses and add more later. Tap each module to see what it does and what it needs.</span></p>
+    </div>
+    <div class="mods">
+      <details class="mod pxb" style="--c:var(--yellow)"><summary><span class="pu"></span><span><b><span data-l="pt">Site de imóveis</span><span data-l="es">Sitio de inmuebles</span><span data-l="en">Property website</span></b><small><span data-l="pt">Catálogo, busca e WhatsApp</span><span data-l="es">Catálogo, búsqueda y WhatsApp</span><span data-l="en">Catalog, search and WhatsApp</span></small></span></summary>
+        <div class="mbody"><div data-l="pt"><p><b>O que faz:</b> catálogo de imóveis para venda e aluguel, busca por tipo, bairro e preço, página de cada imóvel com fotos, mapa e botão de WhatsApp. Em português e espanhol, com tradução automática do que você escreve.</p><p><b>Precisa de:</b> domínio próprio e conta no Cloudflare. Muitas fotos em alta qualidade usam o Cloudflare R2.</p></div>
+        <div data-l="es"><p><b>Qué hace:</b> catálogo de inmuebles en venta y alquiler, búsqueda por tipo, barrio y precio, página de cada inmueble con fotos, mapa y botón de WhatsApp. En portugués y español, con traducción automática de lo que escribes.</p><p><b>Necesita:</b> dominio propio y cuenta en Cloudflare. Muchas fotos en alta calidad usan Cloudflare R2.</p></div>
+        <div data-l="en"><p><b>What it does:</b> listings for sale and rent, search by type, neighborhood and price, a page per property with photos, map and WhatsApp button. Portuguese and Spanish, with automatic translation of what you write.</p><p><b>Needs:</b> your own domain and a Cloudflare account. Lots of high-quality photos use Cloudflare R2.</p></div></div></details>
+
+      <details class="mod pxb" style="--c:var(--cyan)"><summary><span class="pu"></span><span><b><span data-l="pt">Painel do corretor</span><span data-l="es">Panel del corredor</span><span data-l="en">Agent dashboard</span></b><small><span data-l="pt">Cadastrar casas sem programar</span><span data-l="es">Cargar casas sin programar</span><span data-l="en">Add properties, no coding</span></small></span></summary>
+        <div class="mbody"><div data-l="pt"><p><b>O que faz:</b> login para a equipe, cadastro e edição de imóveis com fotos, endereço automático pelo CEP e o que tem perto (escolas, mercados, hospitais). Lista permanente de códigos para não cadastrar a mesma casa duas vezes. Nada se perde: dá para recuperar o que foi apagado.</p><p><b>Precisa de:</b> o módulo Site de imóveis.</p></div>
+        <div data-l="es"><p><b>Qué hace:</b> login para el equipo, carga y edición de inmuebles con fotos, dirección automática por CEP y lo que hay cerca (escuelas, mercados, hospitales). Lista permanente de códigos para no cargar la misma casa dos veces. Nada se pierde: se puede recuperar lo borrado.</p><p><b>Necesita:</b> el módulo Sitio de inmuebles.</p></div>
+        <div data-l="en"><p><b>What it does:</b> team login, add and edit properties with photos, automatic address from the CEP and what's nearby (schools, markets, hospitals). A permanent code list so the same house isn't added twice. Nothing is lost: deleted items can be restored.</p><p><b>Needs:</b> the Property website module.</p></div></div></details>
+
+      <details class="mod pxb" style="--c:var(--pink)"><summary><span class="pu"></span><span><b><span data-l="pt">Agenda com relógio e chaves</span><span data-l="es">Agenda con reloj y llaves</span><span data-l="en">Clock planner and keys</span></b><small><span data-l="pt">Visitas da equipe em um relógio</span><span data-l="es">Visitas del equipo en un reloj</span><span data-l="en">Team visits on a clock</span></small></span></summary>
+        <div class="mbody"><div data-l="pt"><p><b>O que faz:</b> visitas às casas que toda a equipe vê, lembretes pessoais, relógio com as marcas das próximas 12 horas e lembrete da visita para o cliente pelo WhatsApp. Controle de chaves: quem pegou, quando e onde deixou.</p><p><b>Precisa de:</b> o Painel do corretor e um banco Cloudflare D1 (grátis).</p></div>
+        <div data-l="es"><p><b>Qué hace:</b> visitas a las casas que todo el equipo ve, recordatorios personales, reloj con las marcas de las próximas 12 horas y recordatorio de la visita al cliente por WhatsApp. Control de llaves: quién la sacó, cuándo y dónde la dejó.</p><p><b>Necesita:</b> el Panel del corredor y una base Cloudflare D1 (gratis).</p></div>
+        <div data-l="en"><p><b>What it does:</b> property visits the whole team sees, personal reminders, a clock marking the next 12 hours, and WhatsApp visit reminders for clients. Key tracking: who took it, when and where it was left.</p><p><b>Needs:</b> the Agent dashboard and a Cloudflare D1 database (free).</p></div></div></details>
+
+      <details class="mod pxb" style="--c:var(--green)"><summary><span class="pu"></span><span><b><span data-l="pt">Chat do site</span><span data-l="es">Chat del sitio</span><span data-l="en">Website chat</span></b><small><span data-l="pt">Assistente automático + corretor</span><span data-l="es">Asistente automático + corredor</span><span data-l="en">Auto assistant + agent</span></small></span></summary>
+        <div class="mbody"><div data-l="pt"><p><b>O que faz:</b> o cliente escreve "casa 2 quartos no Brás" e o assistente mostra os imóveis. Se quiser, passa para um corretor de verdade (todos são avisados, o primeiro que atende fica com a conversa) ou para o WhatsApp. Central de atendimento em janela separada.</p><p><b>Precisa de:</b> Site de imóveis e banco Cloudflare D1.</p></div>
+        <div data-l="es"><p><b>Qué hace:</b> el cliente escribe "casa 2 cuartos en Brás" y el asistente muestra los inmuebles. Si quiere, pasa a un corredor real (todos reciben aviso, el primero que atiende se queda con la conversación) o a WhatsApp. Central de atención en ventana aparte.</p><p><b>Necesita:</b> Sitio de inmuebles y base Cloudflare D1.</p></div>
+        <div data-l="en"><p><b>What it does:</b> a client types "2-bedroom house in Brás" and the assistant shows listings. It can hand over to a real agent (everyone is notified, first to answer keeps the chat) or to WhatsApp. Support center in its own window.</p><p><b>Needs:</b> Property website and a Cloudflare D1 database.</p></div></div></details>
+
+      <details class="mod pxb" style="--c:var(--violet)"><summary><span class="pu"></span><span><b><span data-l="pt">Fichas e consulta de pessoas</span><span data-l="es">Fichas y consulta de personas</span><span data-l="en">Applications and tenant check</span></b><small><span data-l="pt">Do interessado à aprovação</span><span data-l="es">Del interesado a la aprobación</span><span data-l="en">From applicant to approval</span></small></span></summary>
+        <div class="mbody"><div data-l="pt"><p><b>O que faz:</b> ficha do interessado em 4 passos (dados, documentos, revisão, aprovação), PDF pronto para imprimir e consulta por CPF/RNM com o histórico de cada pessoa (fichas aprovadas, recusadas e observações).</p><p><b>Precisa de:</b> Painel do corretor. Documentos e fotos usam o Cloudflare R2.</p></div>
+        <div data-l="es"><p><b>Qué hace:</b> ficha del interesado en 4 pasos (datos, documentos, revisión, aprobación), PDF listo para imprimir y consulta por CPF/RNM con el historial de cada persona (fichas aprobadas, rechazadas y observaciones).</p><p><b>Necesita:</b> Panel del corredor. Documentos y fotos usan Cloudflare R2.</p></div>
+        <div data-l="en"><p><b>What it does:</b> a 4-step application (details, documents, review, approval), a print-ready PDF, and lookup by CPF/RNM with each person's history (approved, rejected, notes).</p><p><b>Needs:</b> Agent dashboard. Documents and photos use Cloudflare R2.</p></div></div></details>
+
+      <details class="mod pxb" style="--c:var(--orange)"><summary><span class="pu"></span><span><b><span data-l="pt">Contratos e vistorias por link</span><span data-l="es">Contratos y vistorias por link</span><span data-l="en">Contracts and inspections by link</span></b><small><span data-l="pt">PDF por link ou QR</span><span data-l="es">PDF por link o QR</span><span data-l="en">PDF via link or QR</span></small></span></summary>
+        <div class="mbody"><div data-l="pt"><p><b>O que faz:</b> sobe o Word ou PDF da casa e envia ao cliente por link ou QR. O cliente só vê e baixa o PDF; o link pode ter validade e ser desligado. Lista do que falta em cada locação: vistoria, contrato e entrega de chaves.</p><p><b>Precisa de:</b> Painel do corretor e Cloudflare R2.</p></div>
+        <div data-l="es"><p><b>Qué hace:</b> sube el Word o PDF de la casa y lo envía al cliente por link o QR. El cliente solo ve y descarga el PDF; el link puede vencer y apagarse. Lista de lo que falta en cada alquiler: vistoria, contrato y entrega de llaves.</p><p><b>Necesita:</b> Panel del corredor y Cloudflare R2.</p></div>
+        <div data-l="en"><p><b>What it does:</b> upload the property's Word or PDF and send it by link or QR. The client only views and downloads the PDF; links can expire or be turned off. A checklist per rental: inspection, contract and key handover.</p><p><b>Needs:</b> Agent dashboard and Cloudflare R2.</p></div></div></details>
+
+      <details class="mod pxb" style="--c:var(--yellow)"><summary><span class="pu"></span><span><b><span data-l="pt">Aluguéis e cobranças</span><span data-l="es">Alquileres y cobros</span><span data-l="en">Rentals and billing</span></b><small><span data-l="pt">Pagamentos, avisos e reparos</span><span data-l="es">Pagos, avisos y reparaciones</span><span data-l="en">Payments, reminders, repairs</span></small></span></summary>
+        <div class="mbody"><div data-l="pt"><p><b>O que faz:</b> proprietário, inquilino e contrato de cada casa; pagamentos mês a mês com comprovante; aviso automático de vencimento (3 dias antes, no dia e no atraso) com mensagem pronta no WhatsApp; reparos com fotos de antes e depois e relatório anual em PDF; entrega do imóvel passo a passo.</p><p><b>Precisa de:</b> Painel do corretor, Cloudflare D1 e R2. O aviso diário usa o GitHub Actions (grátis).</p></div>
+        <div data-l="es"><p><b>Qué hace:</b> propietario, inquilino y contrato de cada casa; pagos mes a mes con comprobante; aviso automático de vencimiento (3 días antes, el día y en atraso) con mensaje listo en WhatsApp; reparaciones con fotos de antes y después y reporte anual en PDF; entrega del inmueble paso a paso.</p><p><b>Necesita:</b> Panel del corredor, Cloudflare D1 y R2. El aviso diario usa GitHub Actions (gratis).</p></div>
+        <div data-l="en"><p><b>What it does:</b> owner, tenant and contract per property; monthly payments with receipts; automatic due-date reminders (3 days before, on the day, and when late) with a ready WhatsApp message; repairs with before/after photos and a yearly PDF report; step-by-step move-out.</p><p><b>Needs:</b> Agent dashboard, Cloudflare D1 and R2. The daily reminder uses GitHub Actions (free).</p></div></div></details>
+
+      <details class="mod pxb" style="--c:var(--cyan)"><summary><span class="pu"></span><span><b><span data-l="pt">Central do cliente</span><span data-l="es">Central del cliente</span><span data-l="en">Client portal</span></b><small><span data-l="pt">Para inquilinos e proprietários</span><span data-l="es">Para inquilinos y propietarios</span><span data-l="en">For tenants and owners</span></small></span></summary>
+        <div class="mbody"><div data-l="pt"><p><b>O que faz:</b> inquilinos e proprietários entram com CPF/RNM e senha e veem os seus imóveis: contrato, vistoria, recibos, pagamentos e reparos. O proprietário vê também um gráfico do que recebeu.</p><p><b>Precisa de:</b> o módulo Aluguéis e cobranças.</p></div>
+        <div data-l="es"><p><b>Qué hace:</b> inquilinos y propietarios entran con CPF/RNM y contraseña y ven sus inmuebles: contrato, vistoria, recibos, pagos y reparaciones. El propietario también ve un gráfico de lo que recibió.</p><p><b>Necesita:</b> el módulo Alquileres y cobros.</p></div>
+        <div data-l="en"><p><b>What it does:</b> tenants and owners log in with CPF/RNM and a password to see their properties: contract, inspection, receipts, payments and repairs. Owners also see a chart of what they've received.</p><p><b>Needs:</b> the Rentals and billing module.</p></div></div></details>
+
+      <details class="mod pxb" style="--c:var(--pink)"><summary><span class="pu"></span><span><b><span data-l="pt">Modo LIVE</span><span data-l="es">Modo LIVE</span><span data-l="en">LIVE mode</span></b><small><span data-l="pt">Vitrine estilo comercial de TV</span><span data-l="es">Vitrina estilo comercial de TV</span><span data-l="en">TV-commercial showcase</span></small></span></summary>
+        <div class="mbody"><div data-l="pt"><p><b>O que faz:</b> mostra os imóveis disponíveis sozinho, um atrás do outro, como um comercial de TV. Serve para TV na vitrine da imobiliária ou para transmitir ao vivo.</p><p><b>Precisa de:</b> o módulo Site de imóveis.</p></div>
+        <div data-l="es"><p><b>Qué hace:</b> muestra los inmuebles disponibles solo, uno tras otro, como un comercial de TV. Sirve para una TV en la vitrina de la inmobiliaria o para transmitir en vivo.</p><p><b>Necesita:</b> el módulo Sitio de inmuebles.</p></div>
+        <div data-l="en"><p><b>What it does:</b> plays available properties one after another like a TV commercial. Great for a TV in the shop window or for live streaming.</p><p><b>Needs:</b> the Property website module.</p></div></div></details>
+
+      <details class="mod pxb" style="--c:var(--green)"><summary><span class="pu"></span><span><b><span data-l="pt">Relatórios e reajuste</span><span data-l="es">Reportes y reajuste</span><span data-l="en">Reports and rent adjustment</span></b><small><span data-l="pt">Números do site e da equipe</span><span data-l="es">Números del sitio y del equipo</span><span data-l="en">Website and team numbers</span></small></span></summary>
+        <div class="mbody"><div data-l="pt"><p><b>O que faz:</b> visitas do site, casas mais vistas, cliques no WhatsApp, trabalho da equipe e tempo de resposta do chat. Calculadora de reajuste com IGP-M e IPCA oficiais do Banco Central.</p><p><b>Precisa de:</b> Painel do corretor. O uso do plano grátis do Cloudflare aparece com uma chave de API do próprio cliente.</p></div>
+        <div data-l="es"><p><b>Qué hace:</b> visitas del sitio, casas más vistas, clics en WhatsApp, trabajo del equipo y tiempo de respuesta del chat. Calculadora de reajuste con IGP-M e IPCA oficiales del Banco Central.</p><p><b>Necesita:</b> Panel del corredor. El uso del plan gratis de Cloudflare aparece con una clave de API del propio cliente.</p></div>
+        <div data-l="en"><p><b>What it does:</b> site visits, most-viewed properties, WhatsApp clicks, team activity and chat response time. Rent adjustment calculator with official IGP-M and IPCA from the Central Bank.</p><p><b>Needs:</b> Agent dashboard. Cloudflare free-plan usage shows with the client's own API key.</p></div></div></details>
+
+      <details class="mod pxb" style="--c:var(--violet)"><summary><span class="pu"></span><span><b><span data-l="pt">Apps Android e PC</span><span data-l="es">Apps Android y PC</span><span data-l="en">Android and PC apps</span></b><small><span data-l="pt">Com avisos no celular</span><span data-l="es">Con avisos en el celular</span><span data-l="en">With phone notifications</span></small></span></summary>
+        <div class="mbody"><div data-l="pt"><p><b>O que faz:</b> o painel instalado no celular (Android) e no computador (Windows), com notificações mesmo com o site fechado. O app de PC abre na hora e continua funcionando sem internet.</p><p><b>Precisa de:</b> Painel do corretor e uma conta no GitHub para publicar as versões.</p></div>
+        <div data-l="es"><p><b>Qué hace:</b> el panel instalado en el celular (Android) y en la computadora (Windows), con notificaciones aunque el sitio esté cerrado. La app de PC abre al instante y sigue funcionando sin internet.</p><p><b>Necesita:</b> Panel del corredor y una cuenta de GitHub para publicar las versiones.</p></div>
+        <div data-l="en"><p><b>What it does:</b> the dashboard installed on Android phones and Windows PCs, with notifications even when the site is closed. The PC app opens instantly and keeps working offline.</p><p><b>Needs:</b> Agent dashboard and a GitHub account to publish releases.</p></div></div></details>
+
+      <details class="mod pxb" style="--c:var(--orange)"><summary><span class="pu"></span><span><b><span data-l="pt">Segurança e cópias</span><span data-l="es">Seguridad y copias</span><span data-l="en">Security and backups</span></b><small><span data-l="pt">Cópia diária e voltar no tempo</span><span data-l="es">Copia diaria y volver en el tiempo</span><span data-l="en">Daily backup, time travel</span></small></span></summary>
+        <div class="mbody"><div data-l="pt"><p><b>O que faz:</b> cópia de segurança completa todo dia, histórico de cada mudança, casas apagadas que voltam com um toque e "voltar no tempo" do sistema por data. Senhas guardadas só em hash e sessão que fecha sozinha.</p><p><b>Precisa de:</b> Cloudflare R2 para guardar as cópias e GitHub Actions (grátis).</p></div>
+        <div data-l="es"><p><b>Qué hace:</b> copia de seguridad completa todos los días, historial de cada cambio, casas borradas que vuelven con un toque y "volver en el tiempo" del sistema por fecha. Contraseñas guardadas solo en hash y sesión que se cierra sola.</p><p><b>Necesita:</b> Cloudflare R2 para guardar las copias y GitHub Actions (gratis).</p></div>
+        <div data-l="en"><p><b>What it does:</b> a full backup every day, history of every change, deleted properties restored with one tap and system-wide "time travel" by date. Passwords stored only as hashes, sessions that close on their own.</p><p><b>Needs:</b> Cloudflare R2 for backups and GitHub Actions (free).</p></div></div></details>
+    </div>
+    <a class="btn" href="#contato" style="margin-top:28px"><span>▶</span><span data-i18n="cta.quote">PEDIR ORÇAMENTO</span></a>
+  </section>
+
   <section class="world" id="portfolio">
     <div class="whead" style="--c:var(--cyan)">
-      <span class="wtag">WORLD 1-2</span>
+      <span class="wtag">WORLD 1-3</span>
       <h2 data-i18n="port.h2">Portfólio</h2>
       <p data-i18n="port.p">Projetos reais, no ar. Abra e teste você mesmo.</p>
     </div>
@@ -343,29 +437,82 @@ footer a{color:var(--dim)}
         <span class="badge" data-i18n="p.aki.badge">FERRAMENTA</span>
         <h3>AKI Audio Converter</h3>
         <p data-i18n="p.aki.p">Muda o tom e a velocidade de músicas para usar com NekoDJ no Roblox. Tudo acontece no navegador.</p>
-        <a class="more" href="https://aki-audio.pages.dev" target="_blank" rel="noopener" data-i18n="p.open">ABRIR ▶</a>
+        <a class="more" href="https://github.com/Harolt796/-mi-conversor" target="_blank" rel="noopener" data-i18n="p.code">VER NO GITHUB ▶</a>
       </article>
       <article class="panel pxb">
         <span class="ic" aria-hidden="true">🎁</span>
         <span class="badge" data-i18n="p.gift.badge">CARTÃO-PRESENTE</span>
         <h3>Para Ti</h3>
         <p data-i18n="p.gift.p">Um cartão-presente animado com música, fotos e surpresas.</p>
-        <a class="more" href="https://para-ti.pages.dev" target="_blank" rel="noopener" data-i18n="p.open">ABRIR ▶</a>
+        <a class="more" href="https://github.com/Harolt796/Regalo" target="_blank" rel="noopener" data-i18n="p.code">VER NO GITHUB ▶</a>
       </article>
       <article class="panel pxb">
         <span class="ic" aria-hidden="true">🌻</span>
         <span class="badge" data-i18n="p.gift.badge">CARTÃO-PRESENTE</span>
         <h3>Universo de Flores Amarillas</h3>
         <p data-i18n="p.flowers.p">Uma galáxia interativa de flores amarelas para o Dia do Amor e da Amizade.</p>
-        <a class="more" href="https://flores-amarillas.pages.dev" target="_blank" rel="noopener" data-i18n="p.open">ABRIR ▶</a>
+        <a class="more" href="https://github.com/Harolt796/Dia-amor-y-amistad" target="_blank" rel="noopener" data-i18n="p.code">VER NO GITHUB ▶</a>
       </article>
+    </div>
+  </section>
+
+  <section class="world" id="requisitos">
+    <div class="whead" style="--c:var(--violet)">
+      <span class="wtag">WORLD 1-4</span>
+      <h2><span data-l="pt">Antes de começar: o que você precisa</span><span data-l="es">Antes de empezar: lo que necesitas</span><span data-l="en">Before we start: what you need</span></h2>
+      <p><span data-l="pt">Nem tudo é mágica: alguns serviços exigem contas no seu nome. Eu deixo tudo configurado e funcionando; as contas e os dados ficam com você. Toque em cada item.</span><span data-l="es">No todo es magia: algunos servicios piden cuentas a tu nombre. Yo dejo todo configurado y funcionando; las cuentas y los datos quedan contigo. Toca cada ítem.</span><span data-l="en">It's not magic: some services need accounts in your name. I set everything up and leave it working; the accounts and data stay yours. Tap each item.</span></p>
+    </div>
+
+    <div class="req">
+      <details class="mod pxb" style="--c:var(--yellow)" open><summary><span class="pu"></span><span><b><span data-l="pt">Preço: cada projeto é diferente</span><span data-l="es">Precio: cada proyecto es distinto</span><span data-l="en">Price: every project is different</span></b><small><span data-l="pt">Como funciona o orçamento</span><span data-l="es">Cómo funciona el presupuesto</span><span data-l="en">How quotes work</span></small></span></summary>
+        <div class="mbody"><div data-l="pt"><p>Não existe um preço único. O orçamento depende das páginas, dos módulos e dos idiomas que você escolher. Eu entrego tudo pronto, publicado e funcionando.</p><p>Depois da entrega, as contas são suas. Se o seu negócio crescer e passar dos limites grátis, você amplia direto com cada serviço (Cloudflare, Brevo etc.) e paga a eles, não a mim.</p></div>
+        <div data-l="es"><p>No hay un precio único. El presupuesto depende de las páginas, los módulos y los idiomas que elijas. Yo entrego todo listo, publicado y funcionando.</p><p>Después de la entrega, las cuentas son tuyas. Si tu negocio crece y pasa los límites gratis, amplías directo con cada servicio (Cloudflare, Brevo, etc.) y les pagas a ellos, no a mí.</p></div>
+        <div data-l="en"><p>There's no single price. The quote depends on the pages, modules and languages you choose. I deliver everything ready, published and working.</p><p>After delivery, the accounts are yours. If your business grows past the free limits, you upgrade directly with each provider (Cloudflare, Brevo, etc.) and pay them, not me.</p></div></div></details>
+
+      <details class="mod pxb" style="--c:var(--cyan)"><summary><span class="pu"></span><span><b><span data-l="pt">Domínio próprio</span><span data-l="es">Dominio propio</span><span data-l="en">Your own domain</span></b><small>registro.br</small></span></summary>
+        <div class="mbody"><div data-l="pt"><p>O endereço do seu site (ex.: <code>suaempresa.com.br</code>). É <b>obrigatório</b> para o formulário chegar no seu email e para ter um email profissional. Fica no seu nome (CPF ou CNPJ).</p><p><b>Custo:</b> no Registro.br, R$ 40 por ano para .com.br (valor do Registro.br; confira no site).</p><p><b>Criar conta:</b> <a href="https://registro.br" target="_blank" rel="noopener">registro.br</a></p></div>
+        <div data-l="es"><p>La dirección de tu sitio (ej.: <code>tuempresa.com.br</code>). Es <b>obligatorio</b> para que el formulario llegue a tu email y para tener email profesional. Queda a tu nombre (CPF o CNPJ).</p><p><b>Costo:</b> en Registro.br, R$ 40 por año para .com.br (valor de Registro.br; confírmalo en su sitio).</p><p><b>Crear cuenta:</b> <a href="https://registro.br" target="_blank" rel="noopener">registro.br</a></p></div>
+        <div data-l="en"><p>Your site's address (e.g. <code>yourcompany.com.br</code>). It's <b>required</b> for the contact form to reach your inbox and for a professional email. Registered in your name (CPF or CNPJ).</p><p><b>Cost:</b> at Registro.br, R$ 40 per year for .com.br (Registro.br's price; check their site).</p><p><b>Sign up:</b> <a href="https://registro.br" target="_blank" rel="noopener">registro.br</a></p></div></div></details>
+
+      <details class="mod pxb" style="--c:var(--orange)"><summary><span class="pu"></span><span><b><span data-l="pt">Cloudflare (hospedagem)</span><span data-l="es">Cloudflare (hosting)</span><span data-l="en">Cloudflare (hosting)</span></b><small><span data-l="pt">Plano grátis e limites</span><span data-l="es">Plan gratis y límites</span><span data-l="en">Free plan and limits</span></small></span></summary>
+        <div class="mbody"><div data-l="pt"><p>Onde o site fica no ar, com HTTPS e proteção. O plano grátis já inclui:</p><ul class="lim"><li><b>Funções (API):</b> 100 mil pedidos por dia</li><li><b>Banco D1:</b> 5 GB, 5 milhões de leituras e 100 mil gravações por dia</li><li><b>Arquivos R2:</b> 10 GB por mês. Para ativar, o Cloudflare pede um cartão cadastrado, mesmo sem cobrar dentro do limite.</li><li><b>Email Routing e anti-spam Turnstile:</b> grátis</li></ul><p><b>Criar conta:</b> <a href="https://dash.cloudflare.com/sign-up" target="_blank" rel="noopener">dash.cloudflare.com</a></p></div>
+        <div data-l="es"><p>Donde el sitio queda en línea, con HTTPS y protección. El plan gratis ya incluye:</p><ul class="lim"><li><b>Funciones (API):</b> 100 mil pedidos por día</li><li><b>Base D1:</b> 5 GB, 5 millones de lecturas y 100 mil escrituras por día</li><li><b>Archivos R2:</b> 10 GB por mes. Para activarlo, Cloudflare pide una tarjeta registrada, aunque no cobra dentro del límite.</li><li><b>Email Routing y anti-spam Turnstile:</b> gratis</li></ul><p><b>Crear cuenta:</b> <a href="https://dash.cloudflare.com/sign-up" target="_blank" rel="noopener">dash.cloudflare.com</a></p></div>
+        <div data-l="en"><p>Where the site lives, with HTTPS and protection. The free plan includes:</p><ul class="lim"><li><b>Functions (API):</b> 100k requests per day</li><li><b>D1 database:</b> 5 GB, 5 million reads and 100k writes per day</li><li><b>R2 files:</b> 10 GB per month. To enable it, Cloudflare asks for a card on file, even if nothing is charged within the limit.</li><li><b>Email Routing and Turnstile anti-spam:</b> free</li></ul><p><b>Sign up:</b> <a href="https://dash.cloudflare.com/sign-up" target="_blank" rel="noopener">dash.cloudflare.com</a></p></div></div></details>
+
+      <details class="mod pxb" style="--c:var(--pink)"><summary><span class="pu"></span><span><b><span data-l="pt">Email profissional</span><span data-l="es">Email profesional</span><span data-l="en">Professional email</span></b><small>Gmail + Brevo</small></span></summary>
+        <div class="mbody"><div data-l="pt"><p><b>Receber</b> no <code>contato@suaempresa.com.br</code>: o Cloudflare Email Routing repassa para o seu Gmail, grátis.</p><p><b>Enviar</b> como <code>contato@</code>: usa a Brevo. O plano grátis da Brevo tem um limite diário de envios (em torno de 300 por dia; confira no site deles).</p><p><b>Precisa de:</b> domínio próprio, uma conta Google e uma conta Brevo.</p><p><b>Criar contas:</b> <a href="https://accounts.google.com/signup" target="_blank" rel="noopener">Google</a> · <a href="https://www.brevo.com" target="_blank" rel="noopener">brevo.com</a></p></div>
+        <div data-l="es"><p><b>Recibir</b> en <code>contato@tuempresa.com.br</code>: Cloudflare Email Routing lo reenvía a tu Gmail, gratis.</p><p><b>Enviar</b> como <code>contato@</code>: usa Brevo. El plan gratis de Brevo tiene un límite diario de envíos (alrededor de 300 por día; confírmalo en su sitio).</p><p><b>Necesita:</b> dominio propio, una cuenta Google y una cuenta Brevo.</p><p><b>Crear cuentas:</b> <a href="https://accounts.google.com/signup" target="_blank" rel="noopener">Google</a> · <a href="https://www.brevo.com" target="_blank" rel="noopener">brevo.com</a></p></div>
+        <div data-l="en"><p><b>Receive</b> at <code>contact@yourcompany.com.br</code>: Cloudflare Email Routing forwards it to your Gmail, free.</p><p><b>Send</b> as <code>contact@</code>: uses Brevo. Brevo's free plan has a daily sending cap (around 300 per day; check their site).</p><p><b>Needs:</b> your own domain, a Google account and a Brevo account.</p><p><b>Sign up:</b> <a href="https://accounts.google.com/signup" target="_blank" rel="noopener">Google</a> · <a href="https://www.brevo.com" target="_blank" rel="noopener">brevo.com</a></p></div></div></details>
+
+      <details class="mod pxb" style="--c:var(--green)"><summary><span class="pu"></span><span><b><span data-l="pt">GitHub (código)</span><span data-l="es">GitHub (código)</span><span data-l="en">GitHub (code)</span></b><small><span data-l="pt">Onde o código fica guardado</span><span data-l="es">Donde se guarda el código</span><span data-l="en">Where the code lives</span></small></span></summary>
+        <div class="mbody"><div data-l="pt"><p>Guarda o código do seu site e publica as versões dos apps. A conta grátis basta para a maioria dos projetos.</p><p><b>Criar conta:</b> <a href="https://github.com/signup" target="_blank" rel="noopener">github.com</a></p></div>
+        <div data-l="es"><p>Guarda el código de tu sitio y publica las versiones de las apps. La cuenta gratis alcanza para la mayoría de los proyectos.</p><p><b>Crear cuenta:</b> <a href="https://github.com/signup" target="_blank" rel="noopener">github.com</a></p></div>
+        <div data-l="en"><p>Stores your site's code and publishes app releases. The free account is enough for most projects.</p><p><b>Sign up:</b> <a href="https://github.com/signup" target="_blank" rel="noopener">github.com</a></p></div></div></details>
+
+      <details class="mod pxb" style="--c:var(--violet)"><summary><span class="pu"></span><span><b><span data-l="pt">Como saber que é seguro</span><span data-l="es">Cómo saber que es seguro</span><span data-l="en">How to know it's safe</span></b><small><span data-l="pt">Antes de criar qualquer conta</span><span data-l="es">Antes de crear cualquier cuenta</span><span data-l="en">Before creating any account</span></small></span></summary>
+        <div class="mbody"><div data-l="pt"><ul class="lim"><li>Digite você mesmo o endereço oficial (registro.br, cloudflare.com, github.com, brevo.com, google.com) e veja o cadeado do HTTPS.</li><li>Ative a verificação em 2 etapas em todas as contas.</li><li>Eu nunca peço a sua senha, códigos de verificação ou dados de cartão. Você entra nas contas e me dá acesso só ao que for necessário.</li></ul></div>
+        <div data-l="es"><ul class="lim"><li>Escribe tú mismo la dirección oficial (registro.br, cloudflare.com, github.com, brevo.com, google.com) y mira el candado de HTTPS.</li><li>Activa la verificación en 2 pasos en todas las cuentas.</li><li>Yo nunca pido tu contraseña, códigos de verificación ni datos de tarjeta. Tú entras a las cuentas y me das acceso solo a lo necesario.</li></ul></div>
+        <div data-l="en"><ul class="lim"><li>Type the official address yourself (registro.br, cloudflare.com, github.com, brevo.com, google.com) and check for the HTTPS padlock.</li><li>Turn on 2-step verification on every account.</li><li>I never ask for your password, verification codes or card details. You log in and give me access only to what's needed.</li></ul></div></div></details>
+    </div>
+    <p class="src"><span data-l="pt">Limites conferidos em outubro de 2026 nas páginas oficiais; cada serviço pode mudar os seus planos.</span><span data-l="es">Límites revisados en octubre de 2026 en las páginas oficiales; cada servicio puede cambiar sus planes.</span><span data-l="en">Limits checked in October 2026 on the official pages; each provider may change its plans.</span></p>
+  </section>
+
+  <section class="world" id="apps">
+    <div class="whead" style="--c:var(--pink)">
+      <span class="wtag">WORLD 1-5</span>
+      <h2 data-i18n="apps.h2">Apps grátis</h2>
+      <p data-i18n="apps.p">Funcionam no navegador, sem conta. O que você escreve fica só no seu aparelho.</p>
+    </div>
+    <div class="apps">
+      <div class="app"><h3 data-i18n="a1.h">Agenda com relógio</h3><p data-i18n="a1.p">Seus compromissos do dia marcados no relógio.</p><span class="badge" data-i18n="soon">EM BREVE</span></div>
+      <div class="app"><h3 data-i18n="a2.h">Reajuste de aluguel</h3><p data-i18n="a2.p">IGP-M e IPCA com dados oficiais do Banco Central.</p><span class="badge" data-i18n="soon">EM BREVE</span></div>
     </div>
   </section>
 
   <section class="world" id="jogos">
     <div class="whead" style="--c:var(--green)">
-      <span class="wtag">WORLD 1-3</span>
-      <h2 data-i18n="games.h2">Galeria de jogos no Roblox</h2>
+      <span class="wtag">WORLD 1-6</span>
+      <h2><span data-i18n="games.h2">Meu hobby: jogos no Roblox</span></h2>
       <p data-i18n="games.p">Experiências que criei no Roblox. Entre e jogue!</p>
     </div>
     <div class="games" id="gamesGrid">
@@ -393,23 +540,9 @@ footer a{color:var(--dim)}
     </div>
   </section>
 
-  <section class="world" id="apps">
-    <div class="whead" style="--c:var(--pink)">
-      <span class="wtag">WORLD 1-4</span>
-      <h2 data-i18n="apps.h2">Apps grátis</h2>
-      <p data-i18n="apps.p">Funcionam no navegador, sem conta. O que você escreve fica só no seu aparelho.</p>
-    </div>
-    <div class="apps">
-      <div class="app"><h3 data-i18n="a1.h">Agenda com relógio</h3><p data-i18n="a1.p">Seus compromissos do dia marcados no relógio.</p><span class="badge" data-i18n="soon">EM BREVE</span></div>
-      <div class="app"><h3 data-i18n="a2.h">Reajuste de aluguel</h3><p data-i18n="a2.p">IGP-M e IPCA com dados oficiais do Banco Central.</p><span class="badge" data-i18n="soon">EM BREVE</span></div>
-      <div class="app"><h3 data-i18n="a3.h">QR Code Pix</h3><p data-i18n="a3.p">Crie um QR Pix e o "copia e cola" em segundos.</p><span class="badge" data-i18n="soon">EM BREVE</span></div>
-      <div class="app"><h3 data-i18n="a4.h">Multa e juros</h3><p data-i18n="a4.p">Calcule quanto se deve por um pagamento atrasado.</p><span class="badge" data-i18n="soon">EM BREVE</span></div>
-    </div>
-  </section>
-
   <section class="world" id="contato">
     <div class="whead" style="--c:var(--yellow)">
-      <span class="wtag">WORLD 1-5</span>
+      <span class="wtag">WORLD 1-7</span>
       <h2 data-i18n="ct.h2">Contato</h2>
       <p data-i18n="ct.p">Conte sua ideia. Respondo por email com um orçamento.</p>
     </div>
@@ -456,54 +589,54 @@ pt:{"nav.svc":"Serviços","nav.port":"Portfólio","nav.games":"Jogos","nav.apps"
 "svc.h2":"Serviços","svc.p":"Cada projeto é sob medida. Não tenho preço fixo: me conte o que você precisa e envio um orçamento.",
 "svc.main.badge":"ESPECIALIDADE","svc.main.h3":"Páginas web completas","svc.main.p":"Do site simples ao sistema com login, painel e banco de dados. Você escolhe os power-ups:","cta.quote":"PEDIR ORÇAMENTO","cta.more":"PEDIR ORÇAMENTO ▶",
 "sp.lang.b":"Vários idiomas","sp.lang.s":"Português, espanhol, inglês e o que precisar.","sp.fast.b":"Rápido no celular","sp.fast.s":"Abre bem mesmo com internet lenta.","sp.panel.b":"Painel administrativo","sp.panel.s":"Você mesmo edita textos, fotos e produtos.","sp.form.b":"Formulários no seu email","sp.form.s":"Contatos e pedidos chegam direto para você.","sp.pwa.b":"Vira aplicativo","sp.pwa.s":"Instala no celular e funciona sem internet.","sp.wa.b":"WhatsApp e chat","sp.wa.s":"Botões e atendimento automático.","sp.seo.b":"Aparece no Google","sp.seo.s":"Estrutura pronta para buscadores.","sp.db.b":"Banco de dados","sp.db.s":"Cadastros, clientes, agenda e relatórios.",
-"svc.sys.badge":"SISTEMAS","svc.sys.h3":"Sistemas sob medida","svc.sys.p":"Para imobiliárias e outros negócios: site, CRM, contratos, cobranças, agenda e apps. Por assinatura ou licença de uso.",
+"svc.sys.badge":"SISTEMAS","svc.sys.h3":"Sistemas sob medida","svc.sys.p":"Para imobiliárias e outros negócios: escolha só os módulos que precisa (veja abaixo). Por assinatura ou licença de uso.",
 "svc.apps.badge":"APPS","svc.apps.h3":"Apps para Android e PC","svc.apps.p":"Seu sistema instalado no celular ou no computador, com download direto e avisos.",
 "svc.tt.badge":"EM BREVE","svc.tt.h3":"Caixa de entrada do TikTok","svc.tt.p":"Mensagens, comentários, publicações e estatísticas do TikTok em um só lugar. Para empresas e para streamers que fazem live.",
 "port.h2":"Portfólio","port.p":"Projetos reais, no ar. Abra e teste você mesmo.","case.badge":"SITE + SISTEMA",
 "case.f1":"Catálogo de imóveis para venda e aluguel, com busca por tipo e bairro","case.f2":"Painel do corretor para cadastrar e editar imóveis","case.f3":"Chat com assistente automático que passa a conversa para um corretor","case.f4":"Modo LIVE: vitrine automática estilo comercial de TV","case.f5":"Português e espanhol, app para celular e app para PC","case.cta":"VER O SITE",
-"p.aki.badge":"FERRAMENTA","p.aki.p":"Muda o tom e a velocidade de músicas para usar com NekoDJ no Roblox. Tudo acontece no navegador.","p.open":"ABRIR ▶","p.gift.badge":"CARTÃO-PRESENTE","p.gift.p":"Um cartão-presente animado com música, fotos e surpresas.","p.flowers.p":"Uma galáxia interativa de flores amarelas para o Dia do Amor e da Amizade.",
-"games.h2":"Galeria de jogos no Roblox","games.p":"Experiências que criei no Roblox. Entre e jogue!","g1.genre":"Festa · música boliviana e rock","g2.genre":"Carros e combate · deathmatch","g3.genre":"Festa · rock, sertanejo e forró","st.visits":"Visitas","st.fav":"Favoritos","st.now":"Jogando","st.saved":"DADOS DE 16/10/2026","st.live":"● AO VIVO DO ROBLOX","g.play":"JOGAR",
+"p.aki.badge":"FERRAMENTA","p.aki.p":"Muda o tom e a velocidade de músicas para usar com NekoDJ no Roblox. Tudo acontece no navegador.","p.open":"ABRIR ▶","p.gift.badge":"CARTÃO-PRESENTE","p.gift.p":"Um universo 3D feito com amor: complete 5 desafios para desbloquear cada lembrança, com música e fotos.","p.flowers.p":"Uma galáxia interativa de flores amarelas: cada planeta guarda uma mensagem de amizade.",
+"games.h2":"Meu hobby: jogos no Roblox","games.p":"Nas horas livres eu crio experiências no Roblox. Entre e jogue!","g1.genre":"Festa · música boliviana e rock","g2.genre":"Carros e combate · deathmatch","g3.genre":"Festa · rock, sertanejo e forró","st.visits":"Visitas","st.fav":"Favoritos","st.now":"Jogando","st.saved":"DADOS DE 16/10/2026","st.live":"● AO VIVO DO ROBLOX","g.play":"JOGAR",
 "apps.h2":"Apps grátis","apps.p":"Funcionam no navegador, sem conta. O que você escreve fica só no seu aparelho.","a1.h":"Agenda com relógio","a1.p":"Seus compromissos do dia marcados no relógio.","a2.h":"Reajuste de aluguel","a2.p":"IGP-M e IPCA com dados oficiais do Banco Central.","a3.h":"QR Code Pix","a3.p":"Crie um QR Pix e o \"copia e cola\" em segundos.","a4.h":"Multa e juros","a4.p":"Calcule quanto se deve por um pagamento atrasado.","soon":"EM BREVE",
 "ct.h2":"Contato","ct.p":"Conte sua ideia. Respondo por email com um orçamento.","ct.copy":"COPIAR EMAIL","ct.copied":"COPIADO!",
 "f.name":"Seu nome","f.email":"Seu email","f.what":"O que você precisa?","f.o1":"Página web","f.o2":"Sistema sob medida","f.o3":"App Android / PC","f.o4":"Caixa de entrada TikTok","f.o5":"Outro","f.msg":"Mensagem","f.send":"ENVIAR",
 "f.sending":"Enviando…","f.ok":"Mensagem enviada! Respondo em breve no seu email.","f.missing":"Preencha nome, email e mensagem.","f.bademail":"Esse email não parece válido.","f.fail":"Não foi possível enviar agora. Escreva direto para contato@akinori796.com.br.",
-"ft.priv":"Privacidade","ft.terms":"Termos de uso","ft.help":"Ajuda"},
+"ft.priv":"Privacidade","ft.terms":"Termos de uso","ft.help":"Ajuda","nav.imob":"Imobiliárias","nav.req":"Antes de começar","p.code":"VER NO GITHUB ▶"},
 es:{"nav.svc":"Servicios","nav.port":"Portafolio","nav.games":"Juegos","nav.apps":"Apps","nav.contact":"Contacto",
 "hero.class":"CLASE: DEV WEB","hero.h1":"Páginas web que juegan en tu equipo","hero.lead":"Hago <b>páginas web y sistemas</b> con muchas especificaciones: rápidos en el celular, en varios idiomas y listos para que tu negocio crezca.","hero.start":"PRESS START","hero.port":"PORTAFOLIO","hero.speech":"¡Hola! ¿Creamos tu página?",
 "chip.lang":"PT · ES · EN","chip.mobile":"RÁPIDO EN CELULAR","chip.panel":"PANEL ADMIN","chip.app":"SE VUELVE APP",
 "svc.h2":"Servicios","svc.p":"Cada proyecto es a medida. No tengo precio fijo: cuéntame qué necesitas y te envío un presupuesto.",
 "svc.main.badge":"ESPECIALIDAD","svc.main.h3":"Páginas web completas","svc.main.p":"Desde un sitio simple hasta un sistema con login, panel y base de datos. Tú eliges los power-ups:","cta.quote":"PEDIR PRESUPUESTO","cta.more":"PEDIR PRESUPUESTO ▶",
 "sp.lang.b":"Varios idiomas","sp.lang.s":"Portugués, español, inglés y lo que necesites.","sp.fast.b":"Rápido en el celular","sp.fast.s":"Abre bien incluso con internet lenta.","sp.panel.b":"Panel administrativo","sp.panel.s":"Tú mismo editas textos, fotos y productos.","sp.form.b":"Formularios a tu email","sp.form.s":"Contactos y pedidos te llegan directo.","sp.pwa.b":"Se vuelve app","sp.pwa.s":"Se instala en el celular y funciona sin internet.","sp.wa.b":"WhatsApp y chat","sp.wa.s":"Botones y atención automática.","sp.seo.b":"Aparece en Google","sp.seo.s":"Estructura lista para buscadores.","sp.db.b":"Base de datos","sp.db.s":"Registros, clientes, agenda e informes.",
-"svc.sys.badge":"SISTEMAS","svc.sys.h3":"Sistemas a medida","svc.sys.p":"Para inmobiliarias y otros negocios: sitio, CRM, contratos, cobros, agenda y apps. Por suscripción o licencia de uso.",
+"svc.sys.badge":"SISTEMAS","svc.sys.h3":"Sistemas a medida","svc.sys.p":"Para inmobiliarias y otros negocios: elige solo los módulos que necesitas (mira abajo). Por suscripción o licencia de uso.",
 "svc.apps.badge":"APPS","svc.apps.h3":"Apps para Android y PC","svc.apps.p":"Tu sistema instalado en el celular o la computadora, con descarga directa y avisos.",
 "svc.tt.badge":"PRÓXIMAMENTE","svc.tt.h3":"Bandeja de entrada de TikTok","svc.tt.p":"Mensajes, comentarios, publicaciones y estadísticas de TikTok en un solo lugar. Para empresas y para streamers que hacen live.",
 "port.h2":"Portafolio","port.p":"Proyectos reales, en línea. Ábrelos y pruébalos tú mismo.","case.badge":"SITIO + SISTEMA",
 "case.f1":"Catálogo de inmuebles en venta y alquiler, con búsqueda por tipo y barrio","case.f2":"Panel del corredor para cargar y editar inmuebles","case.f3":"Chat con asistente automático que pasa la conversación a un corredor","case.f4":"Modo LIVE: vitrina automática estilo comercial de TV","case.f5":"Portugués y español, app para celular y app para PC","case.cta":"VER EL SITIO",
-"p.aki.badge":"HERRAMIENTA","p.aki.p":"Cambia el tono y la velocidad de canciones para usarlas con NekoDJ en Roblox. Todo pasa en el navegador.","p.open":"ABRIR ▶","p.gift.badge":"TARJETA DE REGALO","p.gift.p":"Una tarjeta de regalo animada con música, fotos y sorpresas.","p.flowers.p":"Una galaxia interactiva de flores amarillas para el Día del Amor y la Amistad.",
-"games.h2":"Galería de juegos en Roblox","games.p":"Experiencias que creé en Roblox. ¡Entra y juega!","g1.genre":"Fiesta · música boliviana y rock","g2.genre":"Autos y combate · deathmatch","g3.genre":"Fiesta · rock, sertanejo y forró","st.visits":"Visitas","st.fav":"Favoritos","st.now":"Jugando","st.saved":"DATOS DEL 16/10/2026","st.live":"● EN VIVO DE ROBLOX","g.play":"JUGAR",
+"p.aki.badge":"HERRAMIENTA","p.aki.p":"Cambia el tono y la velocidad de canciones para usarlas con NekoDJ en Roblox. Todo pasa en el navegador.","p.open":"ABRIR ▶","p.gift.badge":"TARJETA DE REGALO","p.gift.p":"Un universo 3D hecho con amor: completa 5 desafíos para desbloquear cada recuerdo, con música y fotos.","p.flowers.p":"Una galaxia interactiva de flores amarillas: cada planeta guarda un mensaje de amistad.",
+"games.h2":"Mi hobby: juegos en Roblox","games.p":"En mis ratos libres creo experiencias en Roblox. ¡Entra y juega!","g1.genre":"Fiesta · música boliviana y rock","g2.genre":"Autos y combate · deathmatch","g3.genre":"Fiesta · rock, sertanejo y forró","st.visits":"Visitas","st.fav":"Favoritos","st.now":"Jugando","st.saved":"DATOS DEL 16/10/2026","st.live":"● EN VIVO DE ROBLOX","g.play":"JUGAR",
 "apps.h2":"Apps gratis","apps.p":"Funcionan en el navegador, sin cuenta. Lo que escribes queda solo en tu dispositivo.","a1.h":"Agenda con reloj","a1.p":"Tus citas del día marcadas en el reloj.","a2.h":"Reajuste de alquiler","a2.p":"IGP-M e IPCA con datos oficiales del Banco Central.","a3.h":"QR Pix","a3.p":"Crea un QR Pix y el \"copia e cola\" en segundos.","a4.h":"Multa e intereses","a4.p":"Calcula cuánto se debe por un pago atrasado.","soon":"PRÓXIMAMENTE",
 "ct.h2":"Contacto","ct.p":"Cuéntame tu idea. Te respondo por email con un presupuesto.","ct.copy":"COPIAR EMAIL","ct.copied":"¡COPIADO!",
 "f.name":"Tu nombre","f.email":"Tu email","f.what":"¿Qué necesitas?","f.o1":"Página web","f.o2":"Sistema a medida","f.o3":"App Android / PC","f.o4":"Bandeja de TikTok","f.o5":"Otro","f.msg":"Mensaje","f.send":"ENVIAR",
 "f.sending":"Enviando…","f.ok":"¡Mensaje enviado! Te respondo pronto a tu email.","f.missing":"Completa nombre, email y mensaje.","f.bademail":"Ese email no parece válido.","f.fail":"No se pudo enviar ahora. Escribe directo a contato@akinori796.com.br.",
-"ft.priv":"Privacidad","ft.terms":"Términos de uso","ft.help":"Ayuda"},
+"ft.priv":"Privacidad","ft.terms":"Términos de uso","ft.help":"Ayuda","nav.imob":"Inmobiliarias","nav.req":"Antes de empezar","p.code":"VER EN GITHUB ▶"},
 en:{"nav.svc":"Services","nav.port":"Portfolio","nav.games":"Games","nav.apps":"Apps","nav.contact":"Contact",
 "hero.class":"CLASS: WEB DEV","hero.h1":"Websites that play on your team","hero.lead":"I build <b>websites and systems</b> packed with features: fast on phones, multilingual and ready for your business to grow.","hero.start":"PRESS START","hero.port":"PORTFOLIO","hero.speech":"Hi! Shall we build your site?",
 "chip.lang":"PT · ES · EN","chip.mobile":"FAST ON MOBILE","chip.panel":"ADMIN PANEL","chip.app":"INSTALLABLE APP",
 "svc.h2":"Services","svc.p":"Every project is custom-made. No fixed prices: tell me what you need and I'll send a quote.",
 "svc.main.badge":"SPECIALTY","svc.main.h3":"Complete websites","svc.main.p":"From a simple site to a full system with login, admin panel and database. Pick your power-ups:","cta.quote":"GET A QUOTE","cta.more":"GET A QUOTE ▶",
 "sp.lang.b":"Multiple languages","sp.lang.s":"Portuguese, Spanish, English and more.","sp.fast.b":"Fast on mobile","sp.fast.s":"Loads well even on slow connections.","sp.panel.b":"Admin panel","sp.panel.s":"Edit texts, photos and products yourself.","sp.form.b":"Forms to your inbox","sp.form.s":"Messages and orders go straight to you.","sp.pwa.b":"Installable app","sp.pwa.s":"Installs on phones and works offline.","sp.wa.b":"WhatsApp and chat","sp.wa.s":"Buttons and automated replies.","sp.seo.b":"Found on Google","sp.seo.s":"Search-engine-ready structure.","sp.db.b":"Database","sp.db.s":"Records, customers, schedules and reports.",
-"svc.sys.badge":"SYSTEMS","svc.sys.h3":"Custom systems","svc.sys.p":"For real estate agencies and other businesses: website, CRM, contracts, billing, schedule and apps. By subscription or license.",
+"svc.sys.badge":"SYSTEMS","svc.sys.h3":"Custom systems","svc.sys.p":"For real estate agencies and other businesses: pick only the modules you need (see below). By subscription or license.",
 "svc.apps.badge":"APPS","svc.apps.h3":"Android and PC apps","svc.apps.p":"Your system installed on phones or computers, with direct download and notifications.",
 "svc.tt.badge":"COMING SOON","svc.tt.h3":"TikTok unified inbox","svc.tt.p":"TikTok messages, comments, posts and stats in one place. For businesses and live streamers.",
 "port.h2":"Portfolio","port.p":"Real projects, live online. Open them and try them yourself.","case.badge":"WEBSITE + SYSTEM",
 "case.f1":"Property catalog for sale and rent, with search by type and neighborhood","case.f2":"Agent dashboard to add and edit listings","case.f3":"Chat with an automated assistant that hands over to an agent","case.f4":"LIVE mode: automatic TV-commercial-style showcase","case.f5":"Portuguese and Spanish, phone app and PC app","case.cta":"VISIT SITE",
-"p.aki.badge":"TOOL","p.aki.p":"Changes the pitch and speed of songs for NekoDJ in Roblox. Everything runs in the browser.","p.open":"OPEN ▶","p.gift.badge":"GIFT CARD","p.gift.p":"An animated gift card with music, photos and surprises.","p.flowers.p":"An interactive galaxy of yellow flowers for Love and Friendship Day.",
-"games.h2":"Roblox game gallery","games.p":"Experiences I created on Roblox. Jump in and play!","g1.genre":"Party · Bolivian music and rock","g2.genre":"Cars and combat · deathmatch","g3.genre":"Party · rock, sertanejo and forró","st.visits":"Visits","st.fav":"Favorites","st.now":"Playing","st.saved":"DATA FROM 10/16/2026","st.live":"● LIVE FROM ROBLOX","g.play":"PLAY",
+"p.aki.badge":"TOOL","p.aki.p":"Changes the pitch and speed of songs for NekoDJ in Roblox. Everything runs in the browser.","p.open":"OPEN ▶","p.gift.badge":"GIFT CARD","p.gift.p":"A 3D universe made with love: beat 5 challenges to unlock each memory, with music and photos.","p.flowers.p":"An interactive galaxy of yellow flowers: each planet holds a friendship message.",
+"games.h2":"My hobby: Roblox games","games.p":"In my free time I build Roblox experiences. Jump in and play!","g1.genre":"Party · Bolivian music and rock","g2.genre":"Cars and combat · deathmatch","g3.genre":"Party · rock, sertanejo and forró","st.visits":"Visits","st.fav":"Favorites","st.now":"Playing","st.saved":"DATA FROM 10/16/2026","st.live":"● LIVE FROM ROBLOX","g.play":"PLAY",
 "apps.h2":"Free apps","apps.p":"They run in your browser, no account needed. What you type stays on your device.","a1.h":"Clock planner","a1.p":"Today's appointments marked on a clock.","a2.h":"Rent adjustment","a2.p":"IGP-M and IPCA with official Central Bank data.","a3.h":"Pix QR code","a3.p":"Create a Pix QR and copy-paste code in seconds.","a4.h":"Late fees","a4.p":"Work out what's owed on a late payment.","soon":"COMING SOON",
 "ct.h2":"Contact","ct.p":"Tell me your idea. I'll reply by email with a quote.","ct.copy":"COPY EMAIL","ct.copied":"COPIED!",
 "f.name":"Your name","f.email":"Your email","f.what":"What do you need?","f.o1":"Website","f.o2":"Custom system","f.o3":"Android / PC app","f.o4":"TikTok inbox","f.o5":"Other","f.msg":"Message","f.send":"SEND",
 "f.sending":"Sending…","f.ok":"Message sent! I'll reply to your email soon.","f.missing":"Please fill in name, email and message.","f.bademail":"That email doesn't look valid.","f.fail":"Couldn't send right now. Write to contato@akinori796.com.br.",
-"ft.priv":"Privacy","ft.terms":"Terms of use","ft.help":"Help"}
+"ft.priv":"Privacy","ft.terms":"Terms of use","ft.help":"Help","nav.imob":"Real estate","nav.req":"Before we start","p.code":"VIEW ON GITHUB ▶"}
 };
 let lang = "pt";
 function store(k,v){try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,v);}catch(e){return null}}
