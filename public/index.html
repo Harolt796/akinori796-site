@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Akinori796</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Akinori796 — páginas web e sistemas sob medida, rápidos no celular, em vários idiomas e prontos para o seu negócio.">
+<meta name="theme-color" content="#0a0910">
+<link rel="icon" href="/assets/favicon.png" sizes="32x32">
+<link rel="icon" href="/assets/favicon-48.png" sizes="48x48">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Akinori796">
+<meta property="og:description" content="Páginas web e sistemas sob medida, rápidos no celular e em vários idiomas.">
+<meta property="og:image" content="https://akinori796.com.br/assets/og.jpg">
+<meta property="og:url" content="https://akinori796.com.br/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Pixelify+Sans:wght@500;700&family=Rubik:wght@400;500;600&display=swap">
+<style>
+/* Layout: um videogame de 16 bits. Portada = tela de título com céu pixelado; cada seção é um "WORLD" do mapa. */
+:root{
+  --bg:#0a0910;        /* noite do jogo */
+  --bg2:#141221;       /* painéis */
+  --line:#2c2840;      /* bordas de pixel */
+  --fg:#f4f2fa;        /* branco */
+  --dim:#b9b5c9;       /* texto secundário */
+  --plomo:#7d7891;     /* cinza plomo */
+  --cyan:#36d6ff; --pink:#ff4fa3; --yellow:#ffd23f; --green:#4cff7a; --orange:#ff8a3d; --violet:#9b6bff;
+  --f-pixel:"Press Start 2P","Courier New",monospace;
+  --f-head:"Pixelify Sans","Trebuchet MS",system-ui,sans-serif;
+  --f-body:"Rubik",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --px:4px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.6;overflow-x:hidden;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--bg)}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
+.wrap{max-width:1140px;margin:0 auto}
+.pixelated{image-rendering:pixelated}
+
+/* Borda de pixel (cantos "mordidos") reutilizável */
+.pxb{--c:var(--line);box-shadow:0 calc(-1*var(--px)) 0 0 var(--c),0 var(--px) 0 0 var(--c),calc(-1*var(--px)) 0 0 0 var(--c),var(--px) 0 0 0 var(--c)}
+
+/* ── Barra HUD ── */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;margin-inline:calc(-1*max(16px,env(safe-area-inset-left,0px)));
+  background:rgba(10,9,16,.92);backdrop-filter:blur(6px);border-bottom:var(--px) solid var(--line)}
+.hud{display:flex;align-items:center;gap:14px;padding-block:8px;padding-inline:max(16px,env(safe-area-inset-left,0px))}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand img{width:40px;height:40px}
+.brand b{font-family:var(--f-pixel);font-size:12px;letter-spacing:.04em}
+nav.menu{display:flex;gap:2px;margin-left:auto;flex-wrap:wrap}
+nav.menu a{font-family:var(--f-head);font-weight:700;font-size:17px;text-decoration:none;color:var(--dim);padding:4px 10px;position:relative}
+nav.menu a:hover{color:var(--fg)}
+nav.menu a:hover::before{content:"▶";position:absolute;left:-6px;color:var(--yellow);font-size:11px;top:9px}
+.lang{display:flex;gap:4px}
+.lang button{all:unset;cursor:pointer;font-family:var(--f-pixel);font-size:10px;padding:7px 8px;color:var(--dim);background:var(--bg2)}
+.lang button[aria-pressed="true"]{background:var(--yellow);color:#111}
+.lang button:focus-visible{outline:3px solid var(--cyan)}
+@media (max-width:900px){nav.menu{display:none}.lang{margin-left:auto}}
+
+/* ── Tela de título ── */
+.title-screen{position:relative;margin-inline:calc(-1*max(16px,env(safe-area-inset-left,0px)));overflow:hidden;border-bottom:var(--px) solid var(--line)}
+#sky{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated}
+.title-inner{position:relative;max-width:1140px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px));padding-block:56px 120px;
+  display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:40px;align-items:center}
+@media (max-width:860px){.title-inner{grid-template-columns:1fr;padding-block:32px 110px;gap:24px}}
+.p1{font-family:var(--f-pixel);font-size:11px;color:var(--yellow);letter-spacing:.06em;display:flex;gap:14px;flex-wrap:wrap}
+.p1 span:nth-child(2){color:var(--cyan)}
+h1{font-family:var(--f-pixel);font-size:clamp(28px,5.6vw,58px);line-height:1.15;margin:18px 0 20px;letter-spacing:.02em;
+  text-shadow:4px 4px 0 var(--pink),8px 8px 0 rgba(54,214,255,.55);text-wrap:balance}
+.lead{font-size:clamp(17px,2vw,20px);color:var(--fg);max-width:36ch;margin:0 0 28px}
+.lead b{color:var(--yellow);font-weight:600}
+.cta{display:flex;flex-wrap:wrap;gap:16px}
+.btn{--c:#000;font-family:var(--f-pixel);font-size:12px;text-decoration:none;padding:16px 18px;display:inline-flex;align-items:center;gap:10px;
+  cursor:pointer;border:0;color:#111;background:var(--yellow);
+  box-shadow:0 -4px 0 0 #000,0 4px 0 0 #000,-4px 0 0 0 #000,4px 0 0 0 #000,inset -4px -4px 0 0 rgba(0,0,0,.28),inset 4px 4px 0 0 rgba(255,255,255,.45);transition:transform .08s}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(2px);box-shadow:0 -4px 0 0 #000,0 4px 0 0 #000,-4px 0 0 0 #000,4px 0 0 0 #000,inset 4px 4px 0 0 rgba(0,0,0,.28)}
+.btn.cyan{background:var(--cyan)}.btn.pink{background:var(--pink);color:#fff}.btn.green{background:var(--green)}.btn.white{background:var(--fg)}
+.blink{animation:blink 1s steps(2,start) infinite}
+@keyframes blink{to{visibility:hidden}}
+.hero-cat{position:relative;justify-self:center;width:min(100%,380px);display:grid;gap:22px;justify-items:center}
+.hero-cat::before{content:"";position:absolute;left:50%;top:58%;width:110%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(circle,rgba(244,242,250,.30) 0,rgba(155,107,255,.22) 38%,transparent 68%);pointer-events:none}
+.hero-cat img{position:relative;width:100%;height:auto;animation:float 3.2s steps(8) infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.speech{position:relative;z-index:1;justify-self:start;background:var(--fg);color:#111;font-family:var(--f-head);font-weight:700;font-size:16px;padding:8px 12px;max-width:210px;line-height:1.25;
+  box-shadow:0 -4px 0 0 #111,0 4px 0 0 #111,-4px 0 0 0 #111,4px 0 0 0 #111}
+.speech::after{content:"";position:absolute;bottom:-16px;right:40px;width:12px;height:12px;background:var(--fg);box-shadow:4px 4px 0 0 #111,-4px 0 0 0 #111}
+@media (max-width:860px){.hero-cat{width:min(78%,300px);gap:18px}.speech{font-size:14px}}
+.ground{position:absolute;left:0;right:0;bottom:0;height:64px;image-rendering:pixelated;
+  background:
+   linear-gradient(var(--green),var(--green)) 0 0/100% 8px no-repeat,
+   repeating-linear-gradient(90deg,#3a2a1c 0 16px,#4a3522 16px 32px) 0 8px/100% 56px no-repeat;
+  border-top:4px solid #1b5e2b}
+.ground::before{content:"";position:absolute;inset:8px 0 0;background:repeating-linear-gradient(0deg,transparent 0 14px,rgba(0,0,0,.25) 14px 16px)}
+
+/* ── Fita de habilidades ── */
+.skills{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;padding-block:22px}
+.chip{font-family:var(--f-pixel);font-size:10px;padding:9px 10px;background:var(--bg2);color:var(--fg);display:inline-flex;gap:8px;align-items:center}
+.chip i{width:8px;height:8px;display:inline-block;background:var(--c,var(--cyan))}
+
+/* ── Mundos (seções) ── */
+section.world{padding-block:64px;border-top:var(--px) dashed var(--line)}
+.whead{display:grid;gap:10px;margin-bottom:32px}
+.wtag{font-family:var(--f-pixel);font-size:11px;color:var(--c,var(--cyan));display:flex;align-items:center;gap:10px}
+.wtag::before{content:"";width:12px;height:12px;background:currentColor;box-shadow:4px 4px 0 rgba(0,0,0,.5)}
+h2{font-family:var(--f-head);font-weight:700;font-size:clamp(32px,5vw,50px);line-height:1.05;margin:0;text-wrap:balance}
+.whead p{margin:0;color:var(--dim);max-width:62ch;font-size:17px}
+
+/* Serviços */
+.svc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+@media (max-width:980px){.svc{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.svc{grid-template-columns:1fr}}
+.panel{background:var(--bg2);padding:24px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.panel h3{font-family:var(--f-head);font-weight:700;font-size:24px;margin:0;line-height:1.15}
+.panel p{margin:0;color:var(--dim)}
+.panel .more{margin-top:auto;font-family:var(--f-pixel);font-size:10px;text-decoration:none;color:var(--c,var(--cyan));padding-top:8px}
+.panel .more:hover{color:var(--fg)}
+.main-svc{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:28px;--c:var(--yellow)}
+@media (max-width:860px){.main-svc{grid-template-columns:1fr}}
+.main-svc h3{font-size:clamp(28px,3.4vw,36px)}
+.badge{font-family:var(--f-pixel);font-size:9px;padding:6px 8px;background:var(--c,var(--cyan));color:#111;width:max-content}
+.specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0;padding:0;list-style:none}
+@media (max-width:520px){.specs{grid-template-columns:1fr}}
+.specs li{display:flex;gap:10px;align-items:flex-start;background:var(--bg);padding:10px 12px;font-size:15px;min-width:0}
+.specs li b{display:block;font-weight:600}
+.specs li span{color:var(--dim);font-size:13.5px;line-height:1.4}
+.pu{flex:none;width:20px;height:20px;margin-top:2px;background:var(--c);box-shadow:inset -4px -4px 0 rgba(0,0,0,.3),inset 4px 4px 0 rgba(255,255,255,.35)}
+.soon{display:flex;align-items:center;gap:14px}
+.soon img{width:72px;height:72px}
+
+/* Portfólio */
+.case{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:28px;background:var(--bg2);padding:24px;--c:var(--cyan)}
+@media (max-width:860px){.case{grid-template-columns:1fr}}
+.browser{background:#0e0d16;min-width:0}
+.browser .bar{display:flex;gap:8px;align-items:center;padding:10px 12px;background:#1d1a2c}
+.browser .bar i{width:10px;height:10px;display:inline-block}
+.browser .bar i:nth-child(1){background:var(--pink)}.browser .bar i:nth-child(2){background:var(--yellow)}.browser .bar i:nth-child(3){background:var(--green)}
+.browser .url{margin-left:8px;font-family:var(--f-pixel);font-size:9px;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.browser .view{padding:18px;display:grid;gap:12px}
+.mock-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mock-card{aspect-ratio:4/3;background:linear-gradient(180deg,#2a2640 0 60%,#1a1828 60%);position:relative}
+.mock-card::after{content:"";position:absolute;left:10%;right:30%;bottom:16%;height:6px;background:var(--plomo)}
+.mock-hero{height:84px;background:linear-gradient(90deg,#2b2745,#1c1a2d);display:flex;align-items:center;padding:0 16px;gap:10px}
+.mock-hero span{font-family:var(--f-pixel);font-size:10px;color:var(--fg)}
+.mock-hero em{margin-left:auto;font-style:normal;font-family:var(--f-pixel);font-size:8px;background:var(--green);color:#111;padding:5px 6px}
+.feat{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.feat li{display:flex;gap:10px;font-size:15px}
+.feat li::before{content:"";flex:none;width:10px;height:10px;margin-top:7px;background:var(--cyan)}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tags span{font-family:var(--f-pixel);font-size:8px;padding:6px 7px;background:var(--bg);color:var(--dim)}
+.proj{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:28px}
+@media (max-width:900px){.proj{grid-template-columns:1fr}}
+.proj .panel{--c:var(--pink)}
+.proj .panel:nth-child(1){--c:var(--violet)}
+.proj .panel:nth-child(3){--c:var(--yellow)}
+.proj .ic{width:56px;height:56px;display:grid;place-items:center;background:var(--c);font-size:28px;box-shadow:inset -4px -4px 0 rgba(0,0,0,.3),inset 4px 4px 0 rgba(255,255,255,.3)}
+
+/* Jogos */
+.games{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+@media (max-width:900px){.games{grid-template-columns:1fr}}
+.cart{background:var(--bg2);padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0;--c:var(--green)}
+.cart:nth-child(2){--c:var(--orange)}.cart:nth-child(3){--c:var(--cyan)}
+.cart .shot{aspect-ratio:1/1;max-height:240px;width:100%;background:#000;position:relative;overflow:hidden;display:grid;place-items:center;border:4px solid var(--c)}
+.cart .shot img{width:100%;height:100%;object-fit:cover}
+.cart .shot canvas{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated}
+.cart .shot .nm{position:relative;font-family:var(--f-pixel);font-size:14px;text-align:center;padding:8px;background:rgba(0,0,0,.65)}
+.cart h3{font-family:var(--f-head);font-weight:700;font-size:24px;margin:0}
+.cart .genre{color:var(--dim);font-size:15px;margin:-6px 0 0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stats div{background:var(--bg);padding:8px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.stats b{font-family:var(--f-pixel);font-size:13px;color:var(--c);font-weight:400;font-variant-numeric:tabular-nums}
+.stats i{font-style:normal;font-size:11px;color:var(--plomo);text-transform:uppercase;letter-spacing:.06em}
+.live{font-family:var(--f-pixel);font-size:9px;color:var(--plomo)}
+.live.on{color:var(--green)}
+.cart .btn{justify-content:center}
+
+/* Apps */
+.apps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+@media (max-width:900px){.apps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.apps{grid-template-columns:1fr}}
+.app{border:4px dashed var(--line);padding:18px;display:flex;flex-direction:column;gap:8px}
+.app h3{font-family:var(--f-head);font-weight:700;font-size:20px;margin:0}
+.app p{margin:0;font-size:14.5px;color:var(--dim)}
+.app .badge{--c:var(--plomo);color:var(--fg);margin-top:auto}
+
+/* Contato */
+.contact{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:32px}
+@media (max-width:860px){.contact{grid-template-columns:1fr}}
+.mailbox{background:var(--bg2);padding:24px;display:grid;gap:14px;align-content:start}
+.mail{font-family:var(--f-pixel);font-size:clamp(11px,1.6vw,14px);word-break:break-all;user-select:all;color:var(--yellow);line-height:1.6}
+form{display:grid;gap:14px;background:var(--bg2);padding:24px}
+label{font-family:var(--f-head);font-weight:700;font-size:17px;display:grid;gap:6px}
+input,textarea,select{font:inherit;font-size:16px;color:var(--fg);background:var(--bg);border:0;padding:12px;width:100%;
+  box-shadow:0 0 0 4px var(--line)}
+input:focus,textarea:focus,select:focus{outline:none;box-shadow:0 0 0 4px var(--cyan)}
+.formnote{font-size:14px;color:var(--dim);margin:0;min-height:1.4em}
+.formnote.ok{color:var(--green)}.formnote.err{color:var(--pink)}
+.copied{font-family:var(--f-pixel);font-size:10px;color:var(--green)}
+
+footer{border-top:var(--px) solid var(--line);padding-block:28px 44px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;color:var(--plomo);font-size:14px}
+footer nav{display:flex;gap:16px;flex-wrap:wrap}
+footer a{color:var(--dim)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hud">
+    <a class="brand" href="#top" aria-label="Akinori796"><img src="/assets/akinori796-logo-96.webp" width="40" height="40" alt=""><b>AKINORI796</b></a>
+    <nav class="menu" aria-label="Menu">
+      <a href="#servicos" data-i18n="nav.svc">Serviços</a>
+      <a href="#portfolio" data-i18n="nav.port">Portfólio</a>
+      <a href="#jogos" data-i18n="nav.games">Jogos</a>
+      <a href="#apps" data-i18n="nav.apps">Apps</a>
+      <a href="#contato" data-i18n="nav.contact">Contato</a>
+    </nav>
+    <div class="lang" role="group" aria-label="Idioma / Language">
+      <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+      <button type="button" data-lang="es" aria-pressed="false">ES</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</header>
+
+<div class="title-screen" id="top">
+  <canvas id="sky" aria-hidden="true"></canvas>
+  <div class="title-inner">
+    <div>
+      <div class="p1"><span>PLAYER 1</span><span>▸ AKINORI796</span><span data-i18n="hero.class">CLASSE: DEV WEB</span></div>
+      <h1 data-i18n="hero.h1">Páginas web que jogam no seu time</h1>
+      <p class="lead" data-i18n-html="hero.lead">Faço <b>páginas web e sistemas</b> com muitas especificações: rápidos no celular, em vários idiomas e prontos para o seu negócio crescer.</p>
+      <div class="cta">
+        <a class="btn" href="#servicos"><span class="blink">▶</span><span data-i18n="hero.start">PRESS START</span></a>
+        <a class="btn cyan" href="#portfolio" data-i18n="hero.port">PORTFÓLIO</a>
+      </div>
+    </div>
+    <div class="hero-cat">
+      <div class="speech" data-i18n="hero.speech">Olá! Vamos criar sua página?</div>
+      <img src="/assets/akinori796-logo.webp" width="480" height="480" alt="Logo Akinori796">
+    </div>
+  </div>
+  <div class="ground" aria-hidden="true"></div>
+</div>
+
+<main class="wrap">
+  <div class="skills" aria-label="Habilidades">
+    <span class="chip pxb"><i style="--c:var(--yellow)"></i><span data-i18n="chip.lang">PT · ES · EN</span></span>
+    <span class="chip pxb"><i style="--c:var(--green)"></i><span data-i18n="chip.mobile">RÁPIDO NO CELULAR</span></span>
+    <span class="chip pxb"><i style="--c:var(--cyan)"></i><span data-i18n="chip.panel">PAINEL ADMIN</span></span>
+    <span class="chip pxb"><i style="--c:var(--pink)"></i><span data-i18n="chip.app">VIRA APP</span></span>
+    <span class="chip pxb"><i style="--c:var(--orange)"></i>CLOUDFLARE</span>
+  </div>
+
+  <section class="world" id="servicos">
+    <div class="whead" style="--c:var(--yellow)">
+      <span class="wtag">WORLD 1-1</span>
+      <h2 data-i18n="svc.h2">Serviços</h2>
+      <p data-i18n="svc.p">Cada projeto é sob medida. Não tenho preço fixo: me conte o que você precisa e envio um orçamento.</p>
+    </div>
+    <div class="svc">
+      <article class="panel pxb main-svc">
+        <div style="display:grid;gap:12px;align-content:start">
+          <span class="badge" data-i18n="svc.main.badge">ESPECIALIDADE</span>
+          <h3 data-i18n="svc.main.h3">Páginas web completas</h3>
+          <p data-i18n="svc.main.p">Do site simples ao sistema com login, painel e banco de dados. Você escolhe os power-ups:</p>
+          <a class="btn" href="#contato" style="width:max-content" data-i18n="cta.quote">PEDIR ORÇAMENTO</a>
+        </div>
+        <ul class="specs">
+          <li style="--c:var(--yellow)"><span class="pu"></span><div><b data-i18n="sp.lang.b">Vários idiomas</b><span data-i18n="sp.lang.s">Português, espanhol, inglês e o que precisar.</span></div></li>
+          <li style="--c:var(--green)"><span class="pu"></span><div><b data-i18n="sp.fast.b">Rápido no celular</b><span data-i18n="sp.fast.s">Abre bem mesmo com internet lenta.</span></div></li>
+          <li style="--c:var(--cyan)"><span class="pu"></span><div><b data-i18n="sp.panel.b">Painel administrativo</b><span data-i18n="sp.panel.s">Você mesmo edita textos, fotos e produtos.</span></div></li>
+          <li style="--c:var(--pink)"><span class="pu"></span><div><b data-i18n="sp.form.b">Formulários no seu email</b><span data-i18n="sp.form.s">Contatos e pedidos chegam direto para você.</span></div></li>
+          <li style="--c:var(--orange)"><span class="pu"></span><div><b data-i18n="sp.pwa.b">Vira aplicativo</b><span data-i18n="sp.pwa.s">Instala no celular e funciona sem internet.</span></div></li>
+          <li style="--c:var(--violet)"><span class="pu"></span><div><b data-i18n="sp.wa.b">WhatsApp e chat</b><span data-i18n="sp.wa.s">Botões e atendimento automático.</span></div></li>
+          <li style="--c:var(--yellow)"><span class="pu"></span><div><b data-i18n="sp.seo.b">Aparece no Google</b><span data-i18n="sp.seo.s">Estrutura pronta para buscadores.</span></div></li>
+          <li style="--c:var(--green)"><span class="pu"></span><div><b data-i18n="sp.db.b">Banco de dados</b><span data-i18n="sp.db.s">Cadastros, clientes, agenda e relatórios.</span></div></li>
+        </ul>
+      </article>
+      <article class="panel pxb" style="--c:var(--cyan)">
+        <span class="badge" data-i18n="svc.sys.badge">SISTEMAS</span>
+        <h3 data-i18n="svc.sys.h3">Sistemas sob medida</h3>
+        <p data-i18n="svc.sys.p">Para imobiliárias e outros negócios: site, CRM, contratos, cobranças, agenda e apps. Por assinatura ou licença de uso.</p>
+        <a class="more" href="#contato" data-i18n="cta.more">PEDIR ORÇAMENTO ▶</a>
+      </article>
+      <article class="panel pxb" style="--c:var(--green)">
+        <span class="badge" data-i18n="svc.apps.badge">APPS</span>
+        <h3 data-i18n="svc.apps.h3">Apps para Android e PC</h3>
+        <p data-i18n="svc.apps.p">Seu sistema instalado no celular ou no computador, com download direto e avisos.</p>
+        <a class="more" href="#contato" data-i18n="cta.more">PEDIR ORÇAMENTO ▶</a>
+      </article>
+      <article class="panel pxb" style="--c:var(--pink)">
+        <span class="badge" data-i18n="svc.tt.badge">EM BREVE</span>
+        <div class="soon"><img src="/assets/inbox-app-192.webp" width="72" height="72" alt="Akinori796 Inbox"><h3 data-i18n="svc.tt.h3">Caixa de entrada do TikTok</h3></div>
+        <p data-i18n="svc.tt.p">Mensagens, comentários, publicações e estatísticas do TikTok em um só lugar. Para empresas e para streamers que fazem live.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="world" id="portfolio">
+    <div class="whead" style="--c:var(--cyan)">
+      <span class="wtag">WORLD 1-2</span>
+      <h2 data-i18n="port.h2">Portfólio</h2>
+      <p data-i18n="port.p">Projetos reais, no ar. Abra e teste você mesmo.</p>
+    </div>
+    <article class="case pxb">
+      <div class="browser" aria-hidden="true">
+        <div class="bar"><i></i><i></i><i></i><span class="url">pagina-frank.pages.dev</span></div>
+        <div class="view">
+          <div class="mock-hero"><span>IMÓVEIS</span><em>LIVE</em></div>
+          <div class="mock-row"><div class="mock-card"></div><div class="mock-card"></div><div class="mock-card"></div></div>
+          <div class="mock-row"><div class="mock-card"></div><div class="mock-card"></div><div class="mock-card"></div></div>
+        </div>
+      </div>
+      <div style="display:grid;gap:14px;align-content:start;min-width:0">
+        <span class="badge" data-i18n="case.badge">SITE + SISTEMA</span>
+        <h3 style="font-family:var(--f-head);font-size:28px;margin:0;line-height:1.1">Frank Negócios Imobiliários</h3>
+        <ul class="feat">
+          <li data-i18n="case.f1">Catálogo de imóveis para venda e aluguel, com busca por tipo e bairro</li>
+          <li data-i18n="case.f2">Painel do corretor para cadastrar e editar imóveis</li>
+          <li data-i18n="case.f3">Chat com assistente automático que passa a conversa para um corretor</li>
+          <li data-i18n="case.f4">Modo LIVE: vitrine automática estilo comercial de TV</li>
+          <li data-i18n="case.f5">Português e espanhol, app para celular e app para PC</li>
+        </ul>
+        <div class="tags"><span>ASTRO</span><span>REACT</span><span>CLOUDFLARE</span><span>PWA</span><span>ELECTRON</span></div>
+        <a class="btn cyan" href="https://pagina-frank.pages.dev" target="_blank" rel="noopener" style="width:max-content"><span>▶</span><span data-i18n="case.cta">VER O SITE</span></a>
+      </div>
+    </article>
+
+    <div class="proj">
+      <article class="panel pxb">
+        <span class="ic" aria-hidden="true">🎵</span>
+        <span class="badge" data-i18n="p.aki.badge">FERRAMENTA</span>
+        <h3>AKI Audio Converter</h3>
+        <p data-i18n="p.aki.p">Muda o tom e a velocidade de músicas para usar com NekoDJ no Roblox. Tudo acontece no navegador.</p>
+        <a class="more" href="https://aki-audio.pages.dev" target="_blank" rel="noopener" data-i18n="p.open">ABRIR ▶</a>
+      </article>
+      <article class="panel pxb">
+        <span class="ic" aria-hidden="true">🎁</span>
+        <span class="badge" data-i18n="p.gift.badge">CARTÃO-PRESENTE</span>
+        <h3>Para Ti</h3>
+        <p data-i18n="p.gift.p">Um cartão-presente animado com música, fotos e surpresas.</p>
+        <a class="more" href="https://para-ti.pages.dev" target="_blank" rel="noopener" data-i18n="p.open">ABRIR ▶</a>
+      </article>
+      <article class="panel pxb">
+        <span class="ic" aria-hidden="true">🌻</span>
+        <span class="badge" data-i18n="p.gift.badge">CARTÃO-PRESENTE</span>
+        <h3>Universo de Flores Amarillas</h3>
+        <p data-i18n="p.flowers.p">Uma galáxia interativa de flores amarelas para o Dia do Amor e da Amizade.</p>
+        <a class="more" href="https://flores-amarillas.pages.dev" target="_blank" rel="noopener" data-i18n="p.open">ABRIR ▶</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="world" id="jogos">
+    <div class="whead" style="--c:var(--green)">
+      <span class="wtag">WORLD 1-3</span>
+      <h2 data-i18n="games.h2">Galeria de jogos no Roblox</h2>
+      <p data-i18n="games.p">Experiências que criei no Roblox. Entre e jogue!</p>
+    </div>
+    <div class="games" id="gamesGrid">
+      <article class="cart pxb" data-universe="9796089177">
+        <div class="shot"><canvas class="snow" width="48" height="48"></canvas><span class="nm">CHOLET AKI</span></div>
+        <h3>Cholet Aki</h3><p class="genre" data-i18n="g1.genre">Festa · música boliviana e rock</p>
+        <div class="stats"><div><b data-k="visits">19.231</b><i data-i18n="st.visits">Visitas</i></div><div><b data-k="favorites">52</b><i data-i18n="st.fav">Favoritos</i></div><div><b data-k="playing">–</b><i data-i18n="st.now">Jogando</i></div></div>
+        <span class="live" data-i18n="st.saved">DADOS DE 16/10/2026</span>
+        <a class="btn green" href="https://www.roblox.com/games/104585012330829" target="_blank" rel="noopener"><span>▶</span><span data-i18n="g.play">JOGAR</span></a>
+      </article>
+      <article class="cart pxb" data-universe="10530585588">
+        <div class="shot"><canvas class="snow" width="48" height="48"></canvas><span class="nm">PLOMO ANDINO</span></div>
+        <h3>Plomo Andino</h3><p class="genre" data-i18n="g2.genre">Carros e combate · deathmatch</p>
+        <div class="stats"><div><b data-k="visits">214</b><i data-i18n="st.visits">Visitas</i></div><div><b data-k="favorites">3</b><i data-i18n="st.fav">Favoritos</i></div><div><b data-k="playing">–</b><i data-i18n="st.now">Jogando</i></div></div>
+        <span class="live" data-i18n="st.saved">DADOS DE 16/10/2026</span>
+        <a class="btn" style="background:var(--orange)" href="https://www.roblox.com/games/122193007477593" target="_blank" rel="noopener"><span>▶</span><span data-i18n="g.play">JOGAR</span></a>
+      </article>
+      <article class="cart pxb" data-universe="9573263370">
+        <div class="shot"><canvas class="snow" width="48" height="48"></canvas><span class="nm">PISADÃO</span></div>
+        <h3>Pisadão</h3><p class="genre" data-i18n="g3.genre">Festa · rock, sertanejo e forró</p>
+        <div class="stats"><div><b data-k="visits">14.520</b><i data-i18n="st.visits">Visitas</i></div><div><b data-k="favorites">34</b><i data-i18n="st.fav">Favoritos</i></div><div><b data-k="playing">–</b><i data-i18n="st.now">Jogando</i></div></div>
+        <span class="live" data-i18n="st.saved">DADOS DE 16/10/2026</span>
+        <a class="btn cyan" href="https://www.roblox.com/games/130134160402302" target="_blank" rel="noopener"><span>▶</span><span data-i18n="g.play">JOGAR</span></a>
+      </article>
+    </div>
+  </section>
+
+  <section class="world" id="apps">
+    <div class="whead" style="--c:var(--pink)">
+      <span class="wtag">WORLD 1-4</span>
+      <h2 data-i18n="apps.h2">Apps grátis</h2>
+      <p data-i18n="apps.p">Funcionam no navegador, sem conta. O que você escreve fica só no seu aparelho.</p>
+    </div>
+    <div class="apps">
+      <div class="app"><h3 data-i18n="a1.h">Agenda com relógio</h3><p data-i18n="a1.p">Seus compromissos do dia marcados no relógio.</p><span class="badge" data-i18n="soon">EM BREVE</span></div>
+      <div class="app"><h3 data-i18n="a2.h">Reajuste de aluguel</h3><p data-i18n="a2.p">IGP-M e IPCA com dados oficiais do Banco Central.</p><span class="badge" data-i18n="soon">EM BREVE</span></div>
+      <div class="app"><h3 data-i18n="a3.h">QR Code Pix</h3><p data-i18n="a3.p">Crie um QR Pix e o "copia e cola" em segundos.</p><span class="badge" data-i18n="soon">EM BREVE</span></div>
+      <div class="app"><h3 data-i18n="a4.h">Multa e juros</h3><p data-i18n="a4.p">Calcule quanto se deve por um pagamento atrasado.</p><span class="badge" data-i18n="soon">EM BREVE</span></div>
+    </div>
+  </section>
+
+  <section class="world" id="contato">
+    <div class="whead" style="--c:var(--yellow)">
+      <span class="wtag">WORLD 1-5</span>
+      <h2 data-i18n="ct.h2">Contato</h2>
+      <p data-i18n="ct.p">Conte sua ideia. Respondo por email com um orçamento.</p>
+    </div>
+    <div class="contact">
+      <div class="mailbox pxb">
+        <span class="badge" style="--c:var(--yellow)">EMAIL</span>
+        <span class="mail" id="mail">contato@akinori796.com.br</span>
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button class="btn white" type="button" id="copy" data-i18n="ct.copy">COPIAR EMAIL</button><span class="copied" id="copied" hidden data-i18n="ct.copied">COPIADO!</span></div>
+      </div>
+      <form id="f" class="pxb" novalidate>
+        <label for="n"><span data-i18n="f.name">Seu nome</span><input id="n" name="name" autocomplete="name" required maxlength="100"></label>
+        <label for="e"><span data-i18n="f.email">Seu email</span><input id="e" name="email" type="email" autocomplete="email" required maxlength="200"></label>
+        <label for="s"><span data-i18n="f.what">O que você precisa?</span>
+          <select id="s" name="topic">
+            <option value="site" data-i18n="f.o1">Página web</option>
+            <option value="sistema" data-i18n="f.o2">Sistema sob medida</option>
+            <option value="app" data-i18n="f.o3">App Android / PC</option>
+            <option value="tiktok" data-i18n="f.o4">Caixa de entrada TikTok</option>
+            <option value="outro" data-i18n="f.o5">Outro</option>
+          </select></label>
+        <label for="m"><span data-i18n="f.msg">Mensagem</span><textarea id="m" name="message" rows="5" required maxlength="4000"></textarea></label>
+        <input type="text" name="website" tabindex="-1" autocomplete="off" class="sr" aria-hidden="true">
+        <div id="turnstile"></div>
+        <button class="btn pink" type="submit" style="width:max-content"><span>▶</span><span data-i18n="f.send">ENVIAR</span></button>
+        <p class="formnote" id="fn" role="status"></p>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <span>© <span id="yr">2026</span> Akinori796 · akinori796.com.br</span>
+    <nav aria-label="Legal"><a href="/privacidade" data-i18n="ft.priv">Privacidade</a><a href="/termos" data-i18n="ft.terms">Termos de uso</a><a href="#contato" data-i18n="ft.help">Ajuda</a></nav>
+  </footer>
+</main>
+
+<script>
+(function(){
+"use strict";
+/* ── Textos em 3 idiomas ── */
+const T = {
+pt:{"nav.svc":"Serviços","nav.port":"Portfólio","nav.games":"Jogos","nav.apps":"Apps","nav.contact":"Contato",
+"hero.class":"CLASSE: DEV WEB","hero.h1":"Páginas web que jogam no seu time","hero.lead":"Faço <b>páginas web e sistemas</b> com muitas especificações: rápidos no celular, em vários idiomas e prontos para o seu negócio crescer.","hero.start":"PRESS START","hero.port":"PORTFÓLIO","hero.speech":"Olá! Vamos criar sua página?",
+"chip.lang":"PT · ES · EN","chip.mobile":"RÁPIDO NO CELULAR","chip.panel":"PAINEL ADMIN","chip.app":"VIRA APP",
+"svc.h2":"Serviços","svc.p":"Cada projeto é sob medida. Não tenho preço fixo: me conte o que você precisa e envio um orçamento.",
+"svc.main.badge":"ESPECIALIDADE","svc.main.h3":"Páginas web completas","svc.main.p":"Do site simples ao sistema com login, painel e banco de dados. Você escolhe os power-ups:","cta.quote":"PEDIR ORÇAMENTO","cta.more":"PEDIR ORÇAMENTO ▶",
+"sp.lang.b":"Vários idiomas","sp.lang.s":"Português, espanhol, inglês e o que precisar.","sp.fast.b":"Rápido no celular","sp.fast.s":"Abre bem mesmo com internet lenta.","sp.panel.b":"Painel administrativo","sp.panel.s":"Você mesmo edita textos, fotos e produtos.","sp.form.b":"Formulários no seu email","sp.form.s":"Contatos e pedidos chegam direto para você.","sp.pwa.b":"Vira aplicativo","sp.pwa.s":"Instala no celular e funciona sem internet.","sp.wa.b":"WhatsApp e chat","sp.wa.s":"Botões e atendimento automático.","sp.seo.b":"Aparece no Google","sp.seo.s":"Estrutura pronta para buscadores.","sp.db.b":"Banco de dados","sp.db.s":"Cadastros, clientes, agenda e relatórios.",
+"svc.sys.badge":"SISTEMAS","svc.sys.h3":"Sistemas sob medida","svc.sys.p":"Para imobiliárias e outros negócios: site, CRM, contratos, cobranças, agenda e apps. Por assinatura ou licença de uso.",
+"svc.apps.badge":"APPS","svc.apps.h3":"Apps para Android e PC","svc.apps.p":"Seu sistema instalado no celular ou no computador, com download direto e avisos.",
+"svc.tt.badge":"EM BREVE","svc.tt.h3":"Caixa de entrada do TikTok","svc.tt.p":"Mensagens, comentários, publicações e estatísticas do TikTok em um só lugar. Para empresas e para streamers que fazem live.",
+"port.h2":"Portfólio","port.p":"Projetos reais, no ar. Abra e teste você mesmo.","case.badge":"SITE + SISTEMA",
+"case.f1":"Catálogo de imóveis para venda e aluguel, com busca por tipo e bairro","case.f2":"Painel do corretor para cadastrar e editar imóveis","case.f3":"Chat com assistente automático que passa a conversa para um corretor","case.f4":"Modo LIVE: vitrine automática estilo comercial de TV","case.f5":"Português e espanhol, app para celular e app para PC","case.cta":"VER O SITE",
+"p.aki.badge":"FERRAMENTA","p.aki.p":"Muda o tom e a velocidade de músicas para usar com NekoDJ no Roblox. Tudo acontece no navegador.","p.open":"ABRIR ▶","p.gift.badge":"CARTÃO-PRESENTE","p.gift.p":"Um cartão-presente animado com música, fotos e surpresas.","p.flowers.p":"Uma galáxia interativa de flores amarelas para o Dia do Amor e da Amizade.",
+"games.h2":"Galeria de jogos no Roblox","games.p":"Experiências que criei no Roblox. Entre e jogue!","g1.genre":"Festa · música boliviana e rock","g2.genre":"Carros e combate · deathmatch","g3.genre":"Festa · rock, sertanejo e forró","st.visits":"Visitas","st.fav":"Favoritos","st.now":"Jogando","st.saved":"DADOS DE 16/10/2026","st.live":"● AO VIVO DO ROBLOX","g.play":"JOGAR",
+"apps.h2":"Apps grátis","apps.p":"Funcionam no navegador, sem conta. O que você escreve fica só no seu aparelho.","a1.h":"Agenda com relógio","a1.p":"Seus compromissos do dia marcados no relógio.","a2.h":"Reajuste de aluguel","a2.p":"IGP-M e IPCA com dados oficiais do Banco Central.","a3.h":"QR Code Pix","a3.p":"Crie um QR Pix e o \"copia e cola\" em segundos.","a4.h":"Multa e juros","a4.p":"Calcule quanto se deve por um pagamento atrasado.","soon":"EM BREVE",
+"ct.h2":"Contato","ct.p":"Conte sua ideia. Respondo por email com um orçamento.","ct.copy":"COPIAR EMAIL","ct.copied":"COPIADO!",
+"f.name":"Seu nome","f.email":"Seu email","f.what":"O que você precisa?","f.o1":"Página web","f.o2":"Sistema sob medida","f.o3":"App Android / PC","f.o4":"Caixa de entrada TikTok","f.o5":"Outro","f.msg":"Mensagem","f.send":"ENVIAR",
+"f.sending":"Enviando…","f.ok":"Mensagem enviada! Respondo em breve no seu email.","f.missing":"Preencha nome, email e mensagem.","f.bademail":"Esse email não parece válido.","f.fail":"Não foi possível enviar agora. Escreva direto para contato@akinori796.com.br.",
+"ft.priv":"Privacidade","ft.terms":"Termos de uso","ft.help":"Ajuda"},
+es:{"nav.svc":"Servicios","nav.port":"Portafolio","nav.games":"Juegos","nav.apps":"Apps","nav.contact":"Contacto",
+"hero.class":"CLASE: DEV WEB","hero.h1":"Páginas web que juegan en tu equipo","hero.lead":"Hago <b>páginas web y sistemas</b> con muchas especificaciones: rápidos en el celular, en varios idiomas y listos para que tu negocio crezca.","hero.start":"PRESS START","hero.port":"PORTAFOLIO","hero.speech":"¡Hola! ¿Creamos tu página?",
+"chip.lang":"PT · ES · EN","chip.mobile":"RÁPIDO EN CELULAR","chip.panel":"PANEL ADMIN","chip.app":"SE VUELVE APP",
+"svc.h2":"Servicios","svc.p":"Cada proyecto es a medida. No tengo precio fijo: cuéntame qué necesitas y te envío un presupuesto.",
+"svc.main.badge":"ESPECIALIDAD","svc.main.h3":"Páginas web completas","svc.main.p":"Desde un sitio simple hasta un sistema con login, panel y base de datos. Tú eliges los power-ups:","cta.quote":"PEDIR PRESUPUESTO","cta.more":"PEDIR PRESUPUESTO ▶",
+"sp.lang.b":"Varios idiomas","sp.lang.s":"Portugués, español, inglés y lo que necesites.","sp.fast.b":"Rápido en el celular","sp.fast.s":"Abre bien incluso con internet lenta.","sp.panel.b":"Panel administrativo","sp.panel.s":"Tú mismo editas textos, fotos y productos.","sp.form.b":"Formularios a tu email","sp.form.s":"Contactos y pedidos te llegan directo.","sp.pwa.b":"Se vuelve app","sp.pwa.s":"Se instala en el celular y funciona sin internet.","sp.wa.b":"WhatsApp y chat","sp.wa.s":"Botones y atención automática.","sp.seo.b":"Aparece en Google","sp.seo.s":"Estructura lista para buscadores.","sp.db.b":"Base de datos","sp.db.s":"Registros, clientes, agenda e informes.",
+"svc.sys.badge":"SISTEMAS","svc.sys.h3":"Sistemas a medida","svc.sys.p":"Para inmobiliarias y otros negocios: sitio, CRM, contratos, cobros, agenda y apps. Por suscripción o licencia de uso.",
+"svc.apps.badge":"APPS","svc.apps.h3":"Apps para Android y PC","svc.apps.p":"Tu sistema instalado en el celular o la computadora, con descarga directa y avisos.",
+"svc.tt.badge":"PRÓXIMAMENTE","svc.tt.h3":"Bandeja de entrada de TikTok","svc.tt.p":"Mensajes, comentarios, publicaciones y estadísticas de TikTok en un solo lugar. Para empresas y para streamers que hacen live.",
+"port.h2":"Portafolio","port.p":"Proyectos reales, en línea. Ábrelos y pruébalos tú mismo.","case.badge":"SITIO + SISTEMA",
+"case.f1":"Catálogo de inmuebles en venta y alquiler, con búsqueda por tipo y barrio","case.f2":"Panel del corredor para cargar y editar inmuebles","case.f3":"Chat con asistente automático que pasa la conversación a un corredor","case.f4":"Modo LIVE: vitrina automática estilo comercial de TV","case.f5":"Portugués y español, app para celular y app para PC","case.cta":"VER EL SITIO",
+"p.aki.badge":"HERRAMIENTA","p.aki.p":"Cambia el tono y la velocidad de canciones para usarlas con NekoDJ en Roblox. Todo pasa en el navegador.","p.open":"ABRIR ▶","p.gift.badge":"TARJETA DE REGALO","p.gift.p":"Una tarjeta de regalo animada con música, fotos y sorpresas.","p.flowers.p":"Una galaxia interactiva de flores amarillas para el Día del Amor y la Amistad.",
+"games.h2":"Galería de juegos en Roblox","games.p":"Experiencias que creé en Roblox. ¡Entra y juega!","g1.genre":"Fiesta · música boliviana y rock","g2.genre":"Autos y combate · deathmatch","g3.genre":"Fiesta · rock, sertanejo y forró","st.visits":"Visitas","st.fav":"Favoritos","st.now":"Jugando","st.saved":"DATOS DEL 16/10/2026","st.live":"● EN VIVO DE ROBLOX","g.play":"JUGAR",
+"apps.h2":"Apps gratis","apps.p":"Funcionan en el navegador, sin cuenta. Lo que escribes queda solo en tu dispositivo.","a1.h":"Agenda con reloj","a1.p":"Tus citas del día marcadas en el reloj.","a2.h":"Reajuste de alquiler","a2.p":"IGP-M e IPCA con datos oficiales del Banco Central.","a3.h":"QR Pix","a3.p":"Crea un QR Pix y el \"copia e cola\" en segundos.","a4.h":"Multa e intereses","a4.p":"Calcula cuánto se debe por un pago atrasado.","soon":"PRÓXIMAMENTE",
+"ct.h2":"Contacto","ct.p":"Cuéntame tu idea. Te respondo por email con un presupuesto.","ct.copy":"COPIAR EMAIL","ct.copied":"¡COPIADO!",
+"f.name":"Tu nombre","f.email":"Tu email","f.what":"¿Qué necesitas?","f.o1":"Página web","f.o2":"Sistema a medida","f.o3":"App Android / PC","f.o4":"Bandeja de TikTok","f.o5":"Otro","f.msg":"Mensaje","f.send":"ENVIAR",
+"f.sending":"Enviando…","f.ok":"¡Mensaje enviado! Te respondo pronto a tu email.","f.missing":"Completa nombre, email y mensaje.","f.bademail":"Ese email no parece válido.","f.fail":"No se pudo enviar ahora. Escribe directo a contato@akinori796.com.br.",
+"ft.priv":"Privacidad","ft.terms":"Términos de uso","ft.help":"Ayuda"},
+en:{"nav.svc":"Services","nav.port":"Portfolio","nav.games":"Games","nav.apps":"Apps","nav.contact":"Contact",
+"hero.class":"CLASS: WEB DEV","hero.h1":"Websites that play on your team","hero.lead":"I build <b>websites and systems</b> packed with features: fast on phones, multilingual and ready for your business to grow.","hero.start":"PRESS START","hero.port":"PORTFOLIO","hero.speech":"Hi! Shall we build your site?",
+"chip.lang":"PT · ES · EN","chip.mobile":"FAST ON MOBILE","chip.panel":"ADMIN PANEL","chip.app":"INSTALLABLE APP",
+"svc.h2":"Services","svc.p":"Every project is custom-made. No fixed prices: tell me what you need and I'll send a quote.",
+"svc.main.badge":"SPECIALTY","svc.main.h3":"Complete websites","svc.main.p":"From a simple site to a full system with login, admin panel and database. Pick your power-ups:","cta.quote":"GET A QUOTE","cta.more":"GET A QUOTE ▶",
+"sp.lang.b":"Multiple languages","sp.lang.s":"Portuguese, Spanish, English and more.","sp.fast.b":"Fast on mobile","sp.fast.s":"Loads well even on slow connections.","sp.panel.b":"Admin panel","sp.panel.s":"Edit texts, photos and products yourself.","sp.form.b":"Forms to your inbox","sp.form.s":"Messages and orders go straight to you.","sp.pwa.b":"Installable app","sp.pwa.s":"Installs on phones and works offline.","sp.wa.b":"WhatsApp and chat","sp.wa.s":"Buttons and automated replies.","sp.seo.b":"Found on Google","sp.seo.s":"Search-engine-ready structure.","sp.db.b":"Database","sp.db.s":"Records, customers, schedules and reports.",
+"svc.sys.badge":"SYSTEMS","svc.sys.h3":"Custom systems","svc.sys.p":"For real estate agencies and other businesses: website, CRM, contracts, billing, schedule and apps. By subscription or license.",
+"svc.apps.badge":"APPS","svc.apps.h3":"Android and PC apps","svc.apps.p":"Your system installed on phones or computers, with direct download and notifications.",
+"svc.tt.badge":"COMING SOON","svc.tt.h3":"TikTok unified inbox","svc.tt.p":"TikTok messages, comments, posts and stats in one place. For businesses and live streamers.",
+"port.h2":"Portfolio","port.p":"Real projects, live online. Open them and try them yourself.","case.badge":"WEBSITE + SYSTEM",
+"case.f1":"Property catalog for sale and rent, with search by type and neighborhood","case.f2":"Agent dashboard to add and edit listings","case.f3":"Chat with an automated assistant that hands over to an agent","case.f4":"LIVE mode: automatic TV-commercial-style showcase","case.f5":"Portuguese and Spanish, phone app and PC app","case.cta":"VISIT SITE",
+"p.aki.badge":"TOOL","p.aki.p":"Changes the pitch and speed of songs for NekoDJ in Roblox. Everything runs in the browser.","p.open":"OPEN ▶","p.gift.badge":"GIFT CARD","p.gift.p":"An animated gift card with music, photos and surprises.","p.flowers.p":"An interactive galaxy of yellow flowers for Love and Friendship Day.",
+"games.h2":"Roblox game gallery","games.p":"Experiences I created on Roblox. Jump in and play!","g1.genre":"Party · Bolivian music and rock","g2.genre":"Cars and combat · deathmatch","g3.genre":"Party · rock, sertanejo and forró","st.visits":"Visits","st.fav":"Favorites","st.now":"Playing","st.saved":"DATA FROM 10/16/2026","st.live":"● LIVE FROM ROBLOX","g.play":"PLAY",
+"apps.h2":"Free apps","apps.p":"They run in your browser, no account needed. What you type stays on your device.","a1.h":"Clock planner","a1.p":"Today's appointments marked on a clock.","a2.h":"Rent adjustment","a2.p":"IGP-M and IPCA with official Central Bank data.","a3.h":"Pix QR code","a3.p":"Create a Pix QR and copy-paste code in seconds.","a4.h":"Late fees","a4.p":"Work out what's owed on a late payment.","soon":"COMING SOON",
+"ct.h2":"Contact","ct.p":"Tell me your idea. I'll reply by email with a quote.","ct.copy":"COPY EMAIL","ct.copied":"COPIED!",
+"f.name":"Your name","f.email":"Your email","f.what":"What do you need?","f.o1":"Website","f.o2":"Custom system","f.o3":"Android / PC app","f.o4":"TikTok inbox","f.o5":"Other","f.msg":"Message","f.send":"SEND",
+"f.sending":"Sending…","f.ok":"Message sent! I'll reply to your email soon.","f.missing":"Please fill in name, email and message.","f.bademail":"That email doesn't look valid.","f.fail":"Couldn't send right now. Write to contato@akinori796.com.br.",
+"ft.priv":"Privacy","ft.terms":"Terms of use","ft.help":"Help"}
+};
+let lang = "pt";
+function store(k,v){try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,v);}catch(e){return null}}
+function t(k){ return (T[lang]&&T[lang][k]) || T.pt[k] || k; }
+function setLang(l){
+  if(!T[l]) l="pt"; lang=l; store("lang",l);
+  document.documentElement.lang = l==="pt"?"pt-BR":l;
+  document.querySelectorAll("[data-i18n]").forEach(el=>{el.textContent=t(el.dataset.i18n)});
+  document.querySelectorAll("[data-i18n-html]").forEach(el=>{el.innerHTML=t(el.dataset.i18nHtml)});
+  document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.lang===l));
+  if (liveOK) document.querySelectorAll(".live").forEach(el=>el.textContent=t("st.live"));
+}
+document.querySelectorAll(".lang button").forEach(b=>b.addEventListener("click",()=>setLang(b.dataset.lang)));
+const saved = store("lang"); const nav=(navigator.language||"pt").slice(0,2);
+let liveOK=false;
+setLang(saved || (nav==="es"?"es":nav==="en"?"en":"pt"));
+document.getElementById("yr").textContent = new Date().getFullYear();
+
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ── Céu pixelado com estrelas, montanhas e cidade ── */
+(function(){
+  const c=document.getElementById("sky"), x=c.getContext("2d"); const S=4; let W,H,stars=[],t=0;
+  const cols=["#36d6ff","#ff4fa3","#ffd23f","#f4f2fa","#9b6bff"];
+  function size(){ const r=c.getBoundingClientRect(); W=Math.ceil(r.width/S); H=Math.ceil(r.height/S); c.width=W; c.height=H;
+    stars=[]; for(let i=0;i<W*H/90;i++) stars.push({x:Math.random()*W|0,y:Math.random()*H*.6|0,c:cols[i%cols.length],p:Math.random()*6});
+    draw(); }
+  function ridge(base,amp,freq,seed,col){ x.fillStyle=col; for(let i=0;i<W;i++){ const h=base+Math.round(Math.sin(i*freq+seed)*amp+Math.sin(i*freq*2.7+seed*3)*amp*.4); x.fillRect(i,H-h,1,h);} }
+  function city(col,win){ let i=0; let s=7; const rnd=()=> (s=(s*9301+49297)%233280)/233280;
+    while(i<W){ const w=4+(rnd()*6|0), h=8+(rnd()*18|0); x.fillStyle=col; x.fillRect(i,H-16-h,w,h);
+      for(let yy=H-16-h+2; yy<H-18; yy+=3) for(let xx=i+1; xx<i+w-1; xx+=2) if(rnd()>.55){ x.fillStyle=win[(xx+yy)%win.length]; x.fillRect(xx,yy,1,1);}  i+=w+1; } }
+  function draw(){
+    const g=x.createLinearGradient(0,0,0,H); g.addColorStop(0,"#0a0910"); g.addColorStop(.55,"#1a1240"); g.addColorStop(1,"#3a1650");
+    x.fillStyle=g; x.fillRect(0,0,W,H);
+    for(const s of stars){ const on = reduce || (Math.sin(t*.05+s.p)>-.3); if(on){ x.fillStyle=s.c; x.fillRect(s.x,s.y,1,1);} }
+    // lua pixelada
+    x.fillStyle="#f4f2fa"; const mx=W-Math.min(40,W*.15)|0, my=10; for(let yy=-6;yy<=6;yy++)for(let xx=-6;xx<=6;xx++) if(xx*xx+yy*yy<=36 && !((xx-3)*(xx-3)+(yy+1)*(yy+1)<=20)) x.fillRect(mx+xx,my+yy,1,1);
+    ridge(46,8,.035,1,"#2a1e55"); ridge(34,6,.06,4,"#3b2470"); city("#14102a",["#ffd23f","#36d6ff","#ff4fa3"]);
+  }
+  size(); addEventListener("resize",size);
+  if(!reduce){ (function loop(){ t++; if(t%6===0) draw(); requestAnimationFrame(loop); })(); }
+})();
+
+/* ── Estática nas capas dos jogos (antes de carregar a imagem) ── */
+function snow(cv){ const x=cv.getContext("2d"),w=cv.width,h=cv.height,img=x.createImageData(w,h);
+  function d(){ for(let i=0;i<img.data.length;i+=4){const v=Math.random()*200|0;img.data[i]=v*.6;img.data[i+1]=v*.6;img.data[i+2]=v;img.data[i+3]=255} x.putImageData(img,0,0);} d();
+  if(!reduce){ let k=0; (function l(){ if(!cv.isConnected) return; if(++k%5===0) d(); requestAnimationFrame(l); })(); } }
+document.querySelectorAll(".snow").forEach(snow);
+
+/* ── Dados ao vivo do Roblox (via /api/roblox no Cloudflare) ── */
+const nf = n => new Intl.NumberFormat(lang==="en"?"en-US":lang==="es"?"es-ES":"pt-BR").format(n);
+fetch("/api/roblox",{headers:{accept:"application/json"}}).then(r=>r.ok?r.json():Promise.reject()).then(data=>{
+  (data.games||[]).forEach(g=>{
+    const card=document.querySelector('.cart[data-universe="'+g.id+'"]'); if(!card) return;
+    const set=(k,v)=>{const el=card.querySelector('[data-k="'+k+'"]'); if(el && v!=null) el.textContent=nf(v)};
+    set("visits",g.visits); set("favorites",g.favoritedCount); set("playing",g.playing);
+    if(g.icon){ const shot=card.querySelector(".shot"); const im=new Image(); im.alt=g.name||""; im.loading="lazy";
+      im.onload=()=>{ shot.innerHTML=""; shot.appendChild(im); }; im.src=g.icon; }
+  });
+  liveOK=true; document.querySelectorAll(".live").forEach(el=>{el.textContent=t("st.live"); el.classList.add("on"); el.removeAttribute("data-i18n");});
+}).catch(()=>{});
+
+/* ── Copiar email ── */
+document.getElementById("copy").addEventListener("click",()=>{
+  const ok=()=>{const c=document.getElementById("copied");c.hidden=false;setTimeout(()=>c.hidden=true,1800)};
+  const sel=()=>getSelection().selectAllChildren(document.getElementById("mail"));
+  try{ navigator.clipboard.writeText("contato@akinori796.com.br").then(ok,sel);}catch(e){sel()}
+});
+
+/* ── Formulário de contato (/api/contact) ── */
+const form=document.getElementById("f"), note=document.getElementById("fn");
+form.addEventListener("submit",async e=>{
+  e.preventDefault(); note.className="formnote";
+  const d=Object.fromEntries(new FormData(form).entries());
+  if(!d.name.trim()||!d.email.trim()||!d.message.trim()){ note.textContent=t("f.missing"); note.classList.add("err"); return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email.trim())){ note.textContent=t("f.bademail"); note.classList.add("err"); return; }
+  d.lang=lang; note.textContent=t("f.sending");
+  try{
+    const r=await fetch("/api/contact",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(d)});
+    if(!r.ok) throw 0; form.reset(); note.textContent=t("f.ok"); note.classList.add("ok");
+    if(window.turnstile) try{turnstile.reset()}catch(_){}
+  }catch(_){ note.textContent=t("f.fail"); note.classList.add("err"); }
+});
+})();
+</script>
+</body>
+</html>
